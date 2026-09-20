@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
+    "deploy": "npx wrangler deploy",
     "pages:dev": "npx wrangler pages dev .",
     "pages:deploy": "npx wrangler pages deploy ."
   },
