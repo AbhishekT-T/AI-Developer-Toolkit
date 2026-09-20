@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resume Scanner Pro — Multi-AI ATS Optimizer, Resume Builder & Career Tools</title>
-<meta name="description" content="Free multi-AI powered ATS resume scanner, resume builder, cover letter generator, and career tools. Supports OpenAI GPT-4o, Google Gemini, Anthropic Claude, DeepSeek, and Groq.">
-<meta name="keywords" content="resume scanner, ATS checker, AI cover letter, resume builder, GPT-4o, Claude, Gemini, DeepSeek, Groq, job match score">
+<title>AI Developer Toolkit — Production Multi-AI ATS Optimizer & Developer Tools</title>
+<meta name="description" content="Production-ready developer platform featuring a local ATS resume scanner, AI resume improvement loop, PDF/DOCX file parsing, multi-language code debugger, and master prompt studio.">
+<meta name="keywords" content="ATS resume scanner, resume optimizer, AI cover letter, code debugger, prompt studio, multi-AI, developer toolkit">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -68,8 +68,6 @@
   }
   .rs-wrap { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 24px 28px 64px; }
 
-  
-
   /* Page Navigation */
   .page-nav {
     display: flex;
@@ -121,8 +119,8 @@
   }
   .page-nav-btn svg { width: 14px; height: 14px; }
 
-  /* Active AI Provider selector badge */
-  .ai-badge-btn {
+  /* Live AI Quota & Tier Badges */
+  .quota-badge-btn {
     font-family: var(--mono);
     font-size: 11px;
     padding: 7px 12px;
@@ -135,9 +133,42 @@
     align-items: center;
     gap: 7px;
     transition: all .15s;
+    font-weight: 600;
   }
-  .ai-badge-btn:hover { background: rgba(167,139,250,0.2); border-color: var(--purple); color: #fff; }
-  .ai-badge-btn .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  .quota-badge-btn:hover { background: rgba(167,139,250,0.2); border-color: var(--purple); color: #fff; }
+  .quota-badge-btn .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  .quota-badge-btn.locked { border-color: rgba(255,92,92,0.4); background: rgba(255,92,92,0.1); color: var(--red); }
+  .quota-badge-btn.locked .pulse-dot { background: var(--red); animation: none; }
+
+  /* Feature Cost Badges */
+  .feat-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .feat-badge.free { background: rgba(61,220,132,0.12); color: var(--green); border: 1px solid rgba(61,220,132,0.3); }
+  .feat-badge.ai { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+
+  .btn-cost-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 6px;
+    background: rgba(0,0,0,0.25);
+    letter-spacing: .05em;
+    opacity: 0.9;
+  }
+  .btn-cost-badge.free { background: rgba(61,220,132,0.2); color: var(--green); }
 
   /* App pages */
   .app-page { display: none; }
@@ -151,11 +182,9 @@
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,138,61,.5);} 70%{box-shadow:0 0 0 8px rgba(255,138,61,0);} 100%{box-shadow:0 0 0 0 rgba(255,138,61,0);} }
   .rs-title { font-family: var(--disp); font-weight: 600; font-size: 36px; line-height: 1.1; margin: 10px 0 8px; letter-spacing: -0.01em;}
   .rs-title .accent { color: var(--amber); }
-  .rs-sub { color: var(--text-dim); font-size: 14.5px; max-width: 580px; line-height:1.5; margin: 0; }
+  .rs-sub { color: var(--text-dim); font-size: 14.5px; max-width: 600px; line-height:1.5; margin: 0; }
   .rs-meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); text-align:right; line-height: 1.8; padding-top: 8px; white-space: nowrap; }
   .rs-meta b { color: var(--text); }
-
-  
 
   /* One-Click Sample Resumes Bar */
   .sample-bar {
@@ -232,12 +261,6 @@
   .rs-scan-label { font-family: var(--mono); font-size: 12px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; }
   .rs-scan-status { font-family: var(--mono); font-size: 11px; color: var(--text-dim); min-height: 16px; }
 
-  .rs-error { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:40px; text-align:center; }
-  .rs-error svg { width: 40px; height:40px; color: var(--red); }
-  .rs-error .t1 { font-family: var(--disp); font-size: 16px; }
-  .rs-error .t2 { font-size: 13px; color: var(--text-dim); max-width: 320px; }
-  .rs-retry-btn { font-family: var(--mono); font-size: 12px; color: var(--amber); background: transparent; border: 1px solid var(--amber); border-radius: 6px; padding: 8px 16px; cursor: pointer; margin-top: 6px; }
-
   .rs-result { padding: 26px; opacity: 0; animation: fadein .5s ease forwards; }
   @keyframes fadein { to { opacity: 1; } }
 
@@ -253,8 +276,6 @@
   .rs-verdict-text .verdict.good { color: var(--green); }
   .rs-verdict-text .verdict.mid { color: var(--yellow); }
   .rs-verdict-text .verdict.low { color: var(--red); }
-
-  .rs-summary { font-size: 14px; line-height: 1.6; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 22px; }
 
   .rs-section-title { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); margin: 20px 0 10px; display:flex; align-items:center; gap:8px;}
   .rs-section-title::after { content:''; flex:1; height:1px; background: var(--line); }
@@ -279,6 +300,23 @@
   .rs-ghost-btn.primary { color: var(--amber); border-color: rgba(255,138,61,0.4); background: rgba(255,138,61,0.08); }
   .rs-ghost-btn.primary:hover { background: rgba(255,138,61,0.18); border-color: var(--amber); }
 
+  /* ─── CLOSED-LOOP AI RESUME IMPROVEMENT CARD ─── */
+  .ai-improve-card {
+    margin-top: 24px;
+    background: linear-gradient(180deg, rgba(167,139,250,0.08), rgba(17,26,43,0.9));
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 10px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-improve-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .ai-improve-title { font-family: var(--disp); font-size: 16px; font-weight: 700; color: #F8FAFC; display:flex; align-items:center; gap:8px; }
+  .ai-improve-desc { font-size: 12.5px; color: var(--text-dim); margin-top: 4px; max-width: 500px; line-height: 1.4; }
+  .diff-container { margin-top: 16px; display: none; }
+  .diff-container.visible { display: block; }
+  .diff-box { background: rgba(0,0,0,0.35); border: 1px solid var(--line); border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.65; color: var(--text); max-height: 320px; overflow-y: auto; white-space: pre-wrap; }
+
   /* Feature Tabs */
   .features-section { margin-top: 32px; }
   .features-header { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-dim); margin-bottom: 16px; display:flex; align-items:center; gap:8px; }
@@ -296,10 +334,11 @@
   /* Feature cards */
   .feat-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .feat-card-head { padding: 14px 18px; border-bottom: 1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap: 12px; flex-wrap: wrap; }
-  .feat-card-title { font-family: var(--disp); font-size: 15px; font-weight: 600; }
+  .feat-card-title { font-family: var(--disp); font-size: 15px; font-weight: 600; display:flex; align-items:center; gap:8px; }
   .feat-card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.45; }
   .feat-card-body { padding: 18px; }
-  .feat-run-btn { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding: 9px 16px; border-radius: 7px; background: var(--amber); color: #1A0E04; border: none; cursor: pointer; font-weight: 600; display:flex; align-items:center; gap: 7px; transition: opacity .15s; white-space: nowrap; flex-shrink: 0; }
+  .feat-run-btn { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding: 9px 16px; border-radius: 7px; background: var(--amber); color: #1A0E04; border: none; cursor: pointer; font-weight: 600; display:flex; align-items:center; gap: 7px; transition: opacity .15s, transform .12s; white-space: nowrap; flex-shrink: 0; }
+  .feat-run-btn:hover:not(:disabled) { transform: translateY(-1px); }
   .feat-run-btn:disabled { opacity: .5; cursor: not-allowed; }
   .feat-run-btn svg { width: 13px; height: 13px; }
 
@@ -340,8 +379,6 @@
   .iq-item.open .iq-item-head svg { transform: rotate(180deg); }
   .iq-item-tip { display:none; padding: 0 14px 12px; font-size: 12.5px; color: var(--text-dim); line-height: 1.55; border-top: 1px solid var(--line); padding-top: 10px; }
   .iq-item.open .iq-item-tip { display: block; }
-  .iq-category { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--purple); margin-top: 18px; margin-bottom: 8px; }
-  .iq-category:first-child { margin-top: 0; }
 
   /* Bullet rewriter */
   .bullet-area { position: relative; }
@@ -362,7 +399,6 @@
   .jd-slot { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
   .jd-slot-head { padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-dim); display:flex; justify-content:space-between; align-items:center; }
   .jd-slot textarea { width:100%; min-height: 100px; resize: vertical; background: transparent; border:none; outline:none; color: var(--text); font-family: var(--body); font-size: 13px; line-height: 1.55; padding: 12px 14px; }
-  .jd-slot textarea::placeholder { color: var(--text-dim); }
   .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 14px; }
   .compare-card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
   .compare-card.best { border-color: rgba(61,220,132,.4); background: rgba(61,220,132,.05); }
@@ -371,8 +407,6 @@
   .compare-score { font-family: var(--mono); font-size: 26px; font-weight: 700; margin-bottom: 4px; }
   .compare-jd-name { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .compare-reason { font-size: 12.5px; line-height: 1.5; color: var(--text); }
-  .compare-bar { height: 4px; border-radius: 2px; margin-top: 10px; background: var(--line); overflow:hidden; }
-  .compare-bar-fill { height: 100%; border-radius: 2px; }
 
   /* Loading indicator */
   .feat-loading { display:flex; align-items:center; gap: 10px; font-family: var(--mono); font-size: 12px; color: var(--amber); margin-top: 14px; }
@@ -384,7 +418,7 @@
   @media (max-width: 960px) { .rgen-layout { grid-template-columns: 1fr; } }
   .rgen-form { background: var(--ink-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .rgen-form-head { padding: 14px 18px; border-bottom: 1px solid var(--line); }
-  .rgen-form-title { font-family: var(--disp); font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+  .rgen-form-title { font-family: var(--disp); font-size: 16px; font-weight: 600; margin-bottom: 3px; display:flex; align-items:center; gap:8px; }
   .rgen-form-sub { font-size: 12px; color: var(--text-dim); }
   .rgen-steps { display:flex; flex-direction:column; }
   .rgen-step { border-bottom: 1px solid var(--line); }
@@ -433,7 +467,7 @@
   @media (max-width: 900px) { .code-layout { grid-template-columns: 1fr; } }
   .code-panel { background: var(--ink-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .code-panel-head { padding: 14px 18px; border-bottom: 1px solid var(--line); display:flex; align-items:center; justify-content:space-between; }
-  .code-panel-title { font-family: var(--disp); font-size: 15px; font-weight: 600; }
+  .code-panel-title { font-family: var(--disp); font-size: 15px; font-weight: 600; display:flex; align-items:center; gap:8px; }
   .code-panel-desc { font-size: 12px; color: var(--text-dim); }
   .code-panel-body { padding: 16px 18px; display:flex; flex-direction:column; gap: 10px; }
   .code-lang-row { display:flex; gap: 6px; flex-wrap: wrap; }
@@ -458,16 +492,19 @@
   .prompt-mode-btn { font-family: var(--mono); font-size: 11px; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--text-dim); cursor: pointer; }
   .prompt-mode-btn.active { background: #7C3AED; color: #FFF; border-color: #7C3AED; font-weight: 600; }
 
-  /* Modal Styles */
+  /* Modals */
   .modal-overlay { position: fixed; inset: 0; background: rgba(11,18,32,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
   .modal-overlay.active { display: flex; }
   .modal-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 12px; width: 100%; max-width: 540px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); max-height: 90vh; overflow-y: auto; }
   .modal-title { font-family: var(--disp); font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); display:flex; align-items:center; justify-content:space-between; }
   .modal-close { background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 22px; line-height: 1; }
   .modal-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; margin-bottom: 16px; }
-  .modal-tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 16px; }
-  .modal-tab-btn { font-family: var(--mono); font-size: 11px; text-transform: uppercase; padding: 6px 12px; border-radius: 5px; border: 1px solid transparent; background: none; color: var(--text-dim); cursor: pointer; }
-  .modal-tab-btn.active { background: rgba(255,138,61,0.12); color: var(--amber); border-color: rgba(255,138,61,0.4); font-weight: 600; }
+
+  /* Lock Card in Lock Modal */
+  .lock-banner { text-align: center; padding: 18px; background: rgba(255,92,92,0.08); border: 1px solid rgba(255,92,92,0.3); border-radius: 8px; margin-bottom: 16px; }
+  .lock-banner .lock-icon { font-size: 32px; margin-bottom: 6px; }
+  .lock-banner .lock-title { font-family: var(--disp); font-size: 16px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px; }
+  .lock-banner .lock-sub { font-size: 12.5px; color: var(--text-dim); }
 
   /* Footer */
   .app-footer {
@@ -502,7 +539,7 @@
   /* Print Styles */
   @media print {
     body { background: #fff !important; color: #000 !important; }
-    .bg-grid, .page-nav, .sticky-top-bar, .sample-bar, .rs-left-stack, .features-section, .ad-slot-wrapper, .modal-overlay, .app-footer, .rs-footer-actions { display: none !important; }
+    .bg-grid, .page-nav, .sample-bar, .rs-left-stack, .features-section, .modal-overlay, .app-footer, .rs-footer-actions, .ai-improve-card { display: none !important; }
     .rs-wrap { max-width: 100% !important; padding: 0 !important; }
     .rs-grid { display: block !important; }
     .rs-results, .rgen-resume-body { border: none !important; background: transparent !important; color: #000 !important; box-shadow: none !important; }
@@ -514,8 +551,6 @@
 <body>
 <div class="bg-grid"></div>
 
-
-
 <div class="rs-wrap">
 
   <!-- TOP LEVEL NAVIGATION -->
@@ -523,7 +558,7 @@
     <div class="page-nav-left">
       <a href="#" class="nav-brand">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m9 12 2 2 4-4"/></svg>
-        Resume Scanner Pro
+        AI Developer Toolkit
       </a>
       <button class="page-nav-btn active" data-page="page-scanner">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-4.35-4.35M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/></svg>
@@ -544,39 +579,18 @@
     </div>
 
     <div class="page-nav-right">
-      <!-- Quick AI Provider Switcher Badge -->
-      <button class="ai-badge-btn" id="headerAiBadgeBtn" onclick="openSettingsModal('ai')" title="Click to switch AI model or provider">
+      <!-- Live AI Quota & Remaining Credits Badge -->
+      <button class="quota-badge-btn" id="quotaBadgeBtn" onclick="showQuotaModal()" title="View your daily AI quota status">
         <span class="pulse-dot"></span>
-        <span id="activeAiLabel">✨ Free Demo Mode</span>
-        <span style="opacity:0.6; font-size:9px;">▼</span>
+        <span id="quotaBadgeText">⚡ AI: 3 Left Today</span>
       </button>
 
-      
-
-      <button class="page-nav-btn" onclick="openSettingsModal('ai')" style="color:var(--amber); border-color:rgba(255,138,61,0.4); background:rgba(255,138,61,0.08);">
+      <button class="page-nav-btn" onclick="openSettingsModal()" style="color:var(--amber); border-color:rgba(255,138,61,0.4); background:rgba(255,138,61,0.08);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
         AI Settings
       </button>
     </div>
   </nav>
-
-  <!-- TOP LEADERBOARD AD SLOT (Google AdSense Responsive Banner) -->
-  <div class="ad-slot-wrapper">
-    <div class="ad-container" id="adContainerTop">
-      <!-- Injected when live AdSense is enabled, otherwise placeholder -->
-      <div class="ad-placeholder-content" id="adPlaceholderTop">
-        <div class="ad-info">
-          <span class="ad-tag">Sponsored</span>
-          <div>
-            <div class="ad-headline">Level Up Your Career with Premium AI Resume Optimization</div>
-            <div class="ad-subtext">Pass 99% of ATS screeners and get interview callbacks 3x faster with tailored applications.</div>
-          </div>
-        </div>
-        <button class="ad-btn" onclick="openPage('page-resume-gen')">Build Resume Now →</button>
-      </div>
-      <div id="realAdTop" style="display:none; width:100%;"></div>
-    </div>
-  </div>
 
   <!-- ═══════════════════════════════════════════
        PAGE 1: RESUME SCANNER & ATS OPTIMIZER
@@ -584,24 +598,27 @@
   <div class="app-page active" id="page-scanner">
     <div class="rs-header">
       <div>
-        <div class="rs-eyebrow"><span class="dot"></span>Resume Scanner Pro — Multi-AI ATS Engine</div>
+        <div class="rs-eyebrow">
+          <span class="dot"></span>Resume Scanner &amp; ATS Optimizer
+          <span class="feat-badge free">FREE • LOCAL</span>
+        </div>
         <h1 class="rs-title">Are you <span class="accent">eligible</span><br>for this role?</h1>
-        <p class="rs-sub">Upload your resume (PDF, Word, TXT) and paste the job posting to get an instant match score — then generate cover letters, prepare interview answers, and rewrite weak bullet points with advanced AI.</p>
+        <p class="rs-sub">Upload your resume (PDF, Word DOCX, TXT) and paste the job description to run an instant client-side ATS scan with 0 latency and 100% privacy.</p>
       </div>
       <div class="rs-meta">
-        AI ENGINE: <b id="engineLabel">SMART DEMO</b><br>
-        ANALYSIS: <b>HYBRID ATS + LLM</b><br>
+        ATS ENGINE: <b>LOCAL HEURISTIC</b><br>
+        AI GATEWAY: <b id="gatewayStatusLabel" style="color:var(--green)">CONNECTED</b><br>
         STATUS: <b id="statusText" style="color:#3DDC84">READY</b>
       </div>
     </div>
 
     <!-- ONE-CLICK TEST SAMPLES -->
     <div class="sample-bar">
-      <span class="sample-title">⚡ Quick Test Samples:</span>
+      <span class="sample-title">⚡ Instant Test Samples:</span>
       <button class="sample-pill" onclick="loadSample('swe')">💻 Full-Stack Engineer</button>
       <button class="sample-pill" onclick="loadSample('pm')">📊 Product Manager</button>
       <button class="sample-pill" onclick="loadSample('da')">📈 Data Analyst</button>
-      <button class="sample-pill" onclick="loadSample('growth')">🚀 Growth Marketer</button>
+      <button class="sample-pill" onclick="loadSample('growth')">🚀 Growth Lead</button>
       <button class="sample-pill" onclick="clearInputs()" style="margin-left:auto; border-color:rgba(255,92,92,0.3); color:var(--red);">✕ Clear All</button>
     </div>
 
@@ -610,10 +627,10 @@
       <div class="rs-left-stack">
         <div class="rs-panel" id="resumeDropZone">
           <div class="rs-panel-head">
-            <span>01 — Resume (Drag &amp; Drop PDF / DOCX / TXT)</span>
-            <span class="tag"><span></span><span></span><span></span></span>
+            <span>01 — Resume (PDF / DOCX / TXT)</span>
+            <span class="feat-badge free">LOCAL PARSER</span>
           </div>
-          <textarea class="rs-input" id="resumeInput" placeholder="Paste your resume text here, or drop a PDF / Word DOCX file below…"></textarea>
+          <textarea class="rs-input" id="resumeInput" placeholder="Paste your resume text here, or drag &amp; drop a PDF or Word (.docx) file below…"></textarea>
           <div class="rs-divider"></div>
           <div class="rs-upload-row">
             <div class="upload-left">
@@ -631,7 +648,7 @@
         <div class="rs-panel">
           <div class="rs-panel-head">
             <span>02 — Target Job Description</span>
-            <span class="tag"><span></span><span></span><span></span></span>
+            <span class="feat-badge free">LOCAL ANALYSIS</span>
           </div>
           <textarea class="rs-input" id="jobInput" placeholder="Paste the job requirements, qualifications, and role description here…"></textarea>
           <div class="rs-divider"></div>
@@ -642,7 +659,7 @@
 
         <button class="rs-scan-btn" id="scanBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-4.35-4.35M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/></svg>
-          <span id="scanBtnText">Run ATS Scan</span>
+          <span id="scanBtnText">Run ATS Scan (Free &amp; Local)</span>
         </button>
       </div>
 
@@ -654,28 +671,28 @@
 
     <!-- ─── FEATURE SUITE TABS ─── -->
     <div class="features-section">
-      <div class="features-header">Multi-AI Career Enhancement Suite</div>
+      <div class="features-header">Career Enhancement Tools</div>
 
       <div class="feat-tabs">
         <button class="feat-tab active" data-tab="cover-letter">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          Cover Letter
+          Cover Letter <span class="btn-cost-badge">AI</span>
         </button>
         <button class="feat-tab" data-tab="ats-checker">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-          ATS Hygiene Check
+          ATS Format Hygiene <span class="btn-cost-badge free">FREE</span>
         </button>
         <button class="feat-tab" data-tab="interview-qs">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Interview Prep
+          Interview Prep <span class="btn-cost-badge">AI</span>
         </button>
         <button class="feat-tab" data-tab="bullet-rewriter">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-          Bullet Rewriter
+          Bullet Rewriter <span class="btn-cost-badge">AI</span>
         </button>
         <button class="feat-tab" data-tab="multi-compare">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-          Multi-Job Compare
+          Multi-Job Compare <span class="btn-cost-badge free">FREE</span>
         </button>
       </div>
 
@@ -684,8 +701,11 @@
         <div class="feat-card">
           <div class="feat-card-head">
             <div>
-              <div class="feat-card-title">AI Cover Letter Generator</div>
-              <div class="feat-card-desc">Generates a tailored, punchy cover letter directly matching your resume against the job description above.</div>
+              <div class="feat-card-title">
+                AI Cover Letter Generator
+                <span class="feat-badge ai">AI • 1 CREDIT</span>
+              </div>
+              <div class="feat-card-desc">Composes a tailored, professional cover letter matching your resume against the target role. Factual experience only.</div>
             </div>
             <button class="feat-run-btn" id="btnCoverLetter">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3Z"/></svg>
@@ -697,9 +717,9 @@
               <div style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:8px;">Tone of Voice</div>
               <div class="tone-row">
                 <button class="tone-pill active" data-tone="professional">Professional</button>
-                <button class="tone-pill" data-tone="enthusiastic">Enthusiastic</button>
-                <button class="tone-pill" data-tone="concise">Concise &amp; Direct</button>
-                <button class="tone-pill" data-tone="storytelling">Storytelling</button>
+                <button class="tone-pill" data-tone="confident">Confident</button>
+                <button class="tone-pill" data-tone="concise">Concise</button>
+                <button class="tone-pill" data-tone="friendly">Friendly</button>
               </div>
             </div>
             <div class="feat-output" id="outCoverLetter">
@@ -717,12 +737,15 @@
         <div class="feat-card">
           <div class="feat-card-head">
             <div>
-              <div class="feat-card-title">ATS Readability &amp; Format Hygiene</div>
-              <div class="feat-card-desc">Tests your resume for common parsing traps — contact data presence, section headers, timeline dates, and action verbs.</div>
+              <div class="feat-card-title">
+                ATS Readability &amp; Format Hygiene
+                <span class="feat-badge free">FREE • LOCAL</span>
+              </div>
+              <div class="feat-card-desc">Evaluates standard ATS parsing pitfalls locally: contact integrity, section keywords, timeline dates, and action verbs.</div>
             </div>
-            <button class="feat-run-btn" id="btnATS">
+            <button class="feat-run-btn" id="btnATS" style="background:var(--green); color:#0B1220;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3Z"/></svg>
-              Run ATS Check
+              Run ATS Check (0 Credits)
             </button>
           </div>
           <div class="feat-card-body">
@@ -738,8 +761,11 @@
         <div class="feat-card">
           <div class="feat-card-head">
             <div>
-              <div class="feat-card-title">Interview Question Predictor</div>
-              <div class="feat-card-desc">Predicts role-specific technical and behavioral questions from the job requirements, complete with STAR-method answer tips.</div>
+              <div class="feat-card-title">
+                Interview Question Predictor
+                <span class="feat-badge ai">AI • 1 CREDIT</span>
+              </div>
+              <div class="feat-card-desc">Synthesizes predicted technical and behavioral questions from the job description with STAR answer strategies.</div>
             </div>
             <button class="feat-run-btn" id="btnInterviewQs">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3Z"/></svg>
@@ -759,8 +785,11 @@
         <div class="feat-card">
           <div class="feat-card-head">
             <div>
-              <div class="feat-card-title">High-Impact Bullet Point Rewriter</div>
-              <div class="feat-card-desc">Upgrades passive resume bullets into quantifiable achievements with strong action verbs and business results.</div>
+              <div class="feat-card-title">
+                Quantified Bullet Point Rewriter
+                <span class="feat-badge ai">AI • 1 CREDIT</span>
+              </div>
+              <div class="feat-card-desc">Rewrites passive resume bullets with strong action verbs. Preserves factual truth without inventing fake metrics.</div>
             </div>
             <button class="feat-run-btn" id="btnBullets">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3Z"/></svg>
@@ -769,7 +798,7 @@
           </div>
           <div class="feat-card-body">
             <div class="bullet-area">
-              <textarea class="bullet-input" id="bulletInput" placeholder="Paste your resume bullet points here (one per line). E.g.&#10;• Was responsible for building the customer checkout flow&#10;• Helped reduce cloud hosting server expenses&#10;• Led sprint standups and assigned developer tasks"></textarea>
+              <textarea class="bullet-input" id="bulletInput" placeholder="Paste your resume bullet points here (one per line). E.g.&#10;• Was responsible for building customer checkout&#10;• Helped reduce cloud hosting costs&#10;• Managed sprint tasks in Jira"></textarea>
             </div>
             <div class="feat-output" id="outBullets">
               <div class="bullet-pairs" id="bulletPairs"></div>
@@ -786,12 +815,15 @@
         <div class="feat-card">
           <div class="feat-card-head">
             <div>
-              <div class="feat-card-title">Multi-Job Description Comparison</div>
-              <div class="feat-card-desc">Compare up to 3 target jobs side-by-side to determine which role offers the highest probability of an interview.</div>
+              <div class="feat-card-title">
+                Multi-Job Match Comparison
+                <span class="feat-badge free">FREE • LOCAL ATS</span>
+              </div>
+              <div class="feat-card-desc">Compare up to 3 target jobs against your resume using the local ATS scoring engine to rank your highest probability fit.</div>
             </div>
-            <button class="feat-run-btn" id="btnCompare">
+            <button class="feat-run-btn" id="btnCompare" style="background:var(--cyan); color:#050D1A;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3Z"/></svg>
-              Compare Fit
+              Compare Jobs (0 Credits)
             </button>
           </div>
           <div class="feat-card-body">
@@ -820,19 +852,22 @@
   </div><!-- /page-scanner -->
 
   <!-- ═══════════════════════════════════════════
-       PAGE 2: AUTO RESUME GENERATOR
+       PAGE 2: RESUME ARCHITECT (BUILDER)
   ════════════════════════════════════════════ -->
   <div class="app-page" id="page-resume-gen">
     <div class="rs-header">
       <div>
-        <div class="rs-eyebrow"><span class="dot"></span>AI Resume Architect</div>
+        <div class="rs-eyebrow">
+          <span class="dot"></span>Resume Architect &amp; Builder
+          <span class="feat-badge free">FREE • LOCAL BUILDER</span>
+        </div>
         <h1 class="rs-title">Build your <span class="accent">resume</span><br>from scratch</h1>
-        <p class="rs-sub">Fill in your professional highlights and let AI compose an ATS-optimized, high-conversion resume in seconds.</p>
+        <p class="rs-sub">Step through our 5-stage interactive builder to compose an ATS-clean, professional resume with zero server cost.</p>
       </div>
       <div class="rs-meta">
-        ENGINE: <b id="rgenEngineLabel">MULTI-AI</b><br>
-        MODE: <b>GUIDED ARCHITECT</b><br>
-        STATUS: <b id="rgenStatus" style="color:#3DDC84">READY</b>
+        BUILDER: <b>LOCAL HEURISTIC</b><br>
+        FORMAT: <b>ATS COMPLIANT</b><br>
+        STATUS: <b style="color:#3DDC84">READY</b>
       </div>
     </div>
 
@@ -840,8 +875,11 @@
       <!-- LEFT: GUIDED FORM WIZARD -->
       <div class="rgen-form">
         <div class="rgen-form-head">
-          <div class="rgen-form-title">Candidate Details</div>
-          <div class="rgen-form-sub">Step through each section or skip ahead</div>
+          <div class="rgen-form-title">
+            Candidate Information Wizard
+            <span class="feat-badge free">0 CREDITS</span>
+          </div>
+          <div class="rgen-form-sub">Fill in each section to generate plain-text ATS resume</div>
         </div>
 
         <div class="rgen-steps">
@@ -855,23 +893,23 @@
             <div class="rgen-step-body">
               <div class="rgen-field">
                 <div class="rgen-label">Full Name</div>
-                <input class="rgen-input" id="rgenName" placeholder="e.g. Maya Lin" type="text">
+                <input class="rgen-input" id="rgenName" placeholder="e.g. Alex Johnson" type="text">
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Job Title / Target Role</div>
-                <input class="rgen-input" id="rgenTitle" placeholder="e.g. Staff Full-Stack Engineer" type="text">
+                <div class="rgen-label">Target Job Title</div>
+                <input class="rgen-input" id="rgenTitle" placeholder="e.g. Senior Software Engineer" type="text">
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Email &amp; Phone</div>
-                <input class="rgen-input" id="rgenContact" placeholder="maya.lin@example.com · +1 (555) 345-6789" type="text">
+                <div class="rgen-label">Contact (Email &amp; Phone)</div>
+                <input class="rgen-input" id="rgenContact" placeholder="alex.j@example.com · +1 (555) 012-3456" type="text">
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Location (City, State / Country)</div>
-                <input class="rgen-input" id="rgenLocation" placeholder="e.g. Seattle, WA (Remote friendly)" type="text">
+                <div class="rgen-label">Location</div>
+                <input class="rgen-input" id="rgenLocation" placeholder="e.g. San Francisco, CA" type="text">
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Portfolio / LinkedIn / GitHub URL</div>
-                <input class="rgen-input" id="rgenLinks" placeholder="linkedin.com/in/mayalin · github.com/mayalin" type="text">
+                <div class="rgen-label">LinkedIn / GitHub / Portfolio</div>
+                <input class="rgen-input" id="rgenLinks" placeholder="linkedin.com/in/alexj" type="text">
               </div>
               <button class="rgen-next-btn" onclick="nextRgenStep('rgenStep1','rgenStep2')">Next: Summary →</button>
             </div>
@@ -881,21 +919,21 @@
           <div class="rgen-step" id="rgenStep2">
             <div class="rgen-step-head" onclick="toggleRgenStep('rgenStep2')">
               <div class="rgen-step-num">2</div>
-              <div class="rgen-step-label">Professional summary</div>
+              <div class="rgen-step-label">Summary &amp; Specialties</div>
               <div class="rgen-step-check">✓</div>
             </div>
             <div class="rgen-step-body">
               <div class="rgen-field">
                 <div class="rgen-label">Years of Experience</div>
-                <input class="rgen-input" id="rgenYears" placeholder="e.g. 6+ years in modern web and distributed systems" type="text">
+                <input class="rgen-input" id="rgenYears" placeholder="e.g. 5+ years" type="text">
               </div>
               <div class="rgen-field">
                 <div class="rgen-label">Core Specialties &amp; Strengths</div>
-                <textarea class="rgen-input" id="rgenStrengths" placeholder="e.g. React, Next.js, Node.js, microservices, AWS serverless, high-throughput APIs, team leadership"></textarea>
+                <textarea class="rgen-input" id="rgenStrengths" placeholder="e.g. React, Node.js, distributed systems, system architecture"></textarea>
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Career Objective</div>
-                <input class="rgen-input" id="rgenGoal" placeholder="e.g. Lead engineering teams building next-gen AI developer tools" type="text">
+                <div class="rgen-label">Career Goal</div>
+                <input class="rgen-input" id="rgenGoal" placeholder="e.g. Architect next-gen cloud platforms" type="text">
               </div>
               <button class="rgen-next-btn" onclick="nextRgenStep('rgenStep2','rgenStep3')">Next: Experience →</button>
             </div>
@@ -905,17 +943,17 @@
           <div class="rgen-step" id="rgenStep3">
             <div class="rgen-step-head" onclick="toggleRgenStep('rgenStep3')">
               <div class="rgen-step-num">3</div>
-              <div class="rgen-step-label">Work history &amp; achievements</div>
+              <div class="rgen-step-label">Work Experience</div>
               <div class="rgen-step-check">✓</div>
             </div>
             <div class="rgen-step-body">
               <div class="rgen-field">
                 <div class="rgen-label">Roles and Companies</div>
-                <textarea class="rgen-input" id="rgenExp" style="min-height:120px" placeholder="e.g.&#10;Senior Engineer · CloudScale Inc · 2022–Present&#10;Architected real-time event streaming pipeline serving 20M requests/day. Cut latency by 45%.&#10;&#10;Software Engineer · Nexus Labs · 2019–2022&#10;Built customer-facing billing portal with Next.js and Stripe, decreasing support tickets by 28%."></textarea>
+                <textarea class="rgen-input" id="rgenExp" style="min-height:110px" placeholder="Senior Engineer · Acme Inc · 2021–Present&#10;Built real-time streaming pipeline processing 10M events/day.&#10;&#10;Software Engineer · Beta Corp · 2019–2021&#10;Delivered billing portal reducing ticket volume by 25%."></textarea>
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Standout Metrics &amp; Achievements</div>
-                <textarea class="rgen-input" id="rgenAchievements" placeholder="e.g.&#10;• Reduced infrastructure cloud bill by $240,000/yr&#10;• Mentored 5 junior engineers to promotion&#10;• Authored core company-wide CI/CD pipelines"></textarea>
+                <div class="rgen-label">Quantified Achievements</div>
+                <textarea class="rgen-input" id="rgenAchievements" placeholder="• Reduced AWS cloud costs by $180,000/yr&#10;• Mentored 4 engineers to promotion"></textarea>
               </div>
               <button class="rgen-next-btn" onclick="nextRgenStep('rgenStep3','rgenStep4')">Next: Education →</button>
             </div>
@@ -925,21 +963,17 @@
           <div class="rgen-step" id="rgenStep4">
             <div class="rgen-step-head" onclick="toggleRgenStep('rgenStep4')">
               <div class="rgen-step-num">4</div>
-              <div class="rgen-step-label">Education &amp; skills</div>
+              <div class="rgen-step-label">Education &amp; Technical Stack</div>
               <div class="rgen-step-check">✓</div>
             </div>
             <div class="rgen-step-body">
               <div class="rgen-field">
                 <div class="rgen-label">Education</div>
-                <textarea class="rgen-input" id="rgenEdu" placeholder="e.g.&#10;B.S. in Computer Science · University of Washington · 2019"></textarea>
+                <textarea class="rgen-input" id="rgenEdu" placeholder="B.S. in Computer Science · State University · 2019"></textarea>
               </div>
               <div class="rgen-field">
-                <div class="rgen-label">Technical Stack &amp; Tools</div>
-                <input class="rgen-input" id="rgenSkills" placeholder="e.g. TypeScript, Python, React, PostgreSQL, Redis, Docker, Kubernetes, GraphQL" type="text">
-              </div>
-              <div class="rgen-field">
-                <div class="rgen-label">Certifications / Honors</div>
-                <input class="rgen-input" id="rgenCerts" placeholder="e.g. AWS Solutions Architect Professional" type="text">
+                <div class="rgen-label">Technical Skills &amp; Tools</div>
+                <input class="rgen-input" id="rgenSkills" placeholder="TypeScript, React, Python, PostgreSQL, Docker, AWS, Git" type="text">
               </div>
               <button class="rgen-next-btn" onclick="nextRgenStep('rgenStep4','rgenStep5')">Next: Format →</button>
             </div>
@@ -949,7 +983,7 @@
           <div class="rgen-step" id="rgenStep5">
             <div class="rgen-step-head" onclick="toggleRgenStep('rgenStep5')">
               <div class="rgen-step-num">5</div>
-              <div class="rgen-step-label">Format &amp; Target JD</div>
+              <div class="rgen-step-label">Format Style</div>
               <div class="rgen-step-check">✓</div>
             </div>
             <div class="rgen-step-body">
@@ -961,34 +995,30 @@
                   <button class="rgen-format-pill" data-rgenformat="hybrid">Hybrid</button>
                 </div>
               </div>
-              <div class="rgen-field">
-                <div class="rgen-label">Tailor for Specific Job Description (Optional)</div>
-                <textarea class="rgen-input" id="rgenTargetJD" placeholder="Paste the target job description to dynamically align keywords and emphasis…"></textarea>
-              </div>
             </div>
           </div>
         </div>
 
         <button class="rgen-generate-btn" id="rgenGenerateBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"/></svg>
-          Generate ATS Resume
+          Build ATS Resume (Free)
         </button>
       </div>
 
       <!-- RIGHT: LIVE PREVIEW & EXPORT -->
       <div class="rgen-output-panel" id="rgenOutputPanel">
         <div class="rgen-output-head">
-          <div class="rgen-output-title">Resume Output</div>
+          <div class="rgen-output-title">Built Resume Preview</div>
           <div class="rgen-output-actions">
             <button class="rgen-action-btn" id="rgenCopyBtn">Copy Text</button>
             <button class="rgen-action-btn" onclick="window.print()">Print / PDF</button>
-            <button class="rgen-action-btn" id="rgenSendToScannerBtn">→ Scan in ATS</button>
+            <button class="rgen-action-btn" id="rgenSendToScannerBtn" style="color:var(--green); border-color:rgba(61,220,132,0.4);">⚡ Send to Scanner</button>
           </div>
         </div>
         <div class="rgen-output-idle" id="rgenIdle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-          <div class="t1">Your polished resume will appear here</div>
-          <div class="t2">Enter your experience details on the left and click Generate. Works with any AI model!</div>
+          <div class="t1">Your built resume will appear here</div>
+          <div class="t2">Fill in your information on the left and click Build ATS Resume. 100% free and local.</div>
         </div>
         <div class="rgen-resume-body" id="rgenResumeBody" style="display:none"></div>
       </div>
@@ -996,18 +1026,21 @@
   </div><!-- /page-resume-gen -->
 
   <!-- ═══════════════════════════════════════════
-       PAGE 3: CODE TOOLS
+       PAGE 3: DEVELOPER CODE TOOLS
   ════════════════════════════════════════════ -->
   <div class="app-page" id="page-code-tools">
     <div class="rs-header">
       <div>
-        <div class="rs-eyebrow"><span class="dot"></span>Developer Engineering Hub</div>
+        <div class="rs-eyebrow">
+          <span class="dot"></span>Developer Engineering Hub
+          <span class="feat-badge ai">AI ASSISTED</span>
+        </div>
         <h1 class="rs-title">Debug &amp; generate <span class="accent">code</span><br>with AI</h1>
-        <p class="rs-sub">Instant multi-language code debugging, algorithm synthesis, test writing, and complexity analysis.</p>
+        <p class="rs-sub">Multi-language code debugging, algorithm synthesis, test writing, and complexity analysis powered by serverless AI routing.</p>
       </div>
       <div class="rs-meta">
-        AI ENGINE: <b>MULTI-AI</b><br>
-        MODE: <b>CODE ASSISTANT</b><br>
+        CODING MODELS: <b>TASK OPTIMIZED</b><br>
+        LANGUAGES: <b>8 SUPPORTED</b><br>
         STATUS: <b id="codeStatus" style="color:#3DDC84">READY</b>
       </div>
     </div>
@@ -1016,9 +1049,9 @@
     <div style="margin-bottom:18px;">
       <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:8px;">Target Language</div>
       <div class="code-lang-row" id="langPills">
-        <button class="code-lang-pill active" data-lang="JavaScript">JS</button>
+        <button class="code-lang-pill active" data-lang="Python">Python</button>
+        <button class="code-lang-pill" data-lang="JavaScript">JS</button>
         <button class="code-lang-pill" data-lang="TypeScript">TS</button>
-        <button class="code-lang-pill" data-lang="Python">Python</button>
         <button class="code-lang-pill" data-lang="Java">Java</button>
         <button class="code-lang-pill" data-lang="C++">C++</button>
         <button class="code-lang-pill" data-lang="Go">Go</button>
@@ -1032,7 +1065,10 @@
       <div class="code-panel">
         <div class="code-panel-head">
           <div>
-            <div class="code-panel-title">🐛 Code Debugger</div>
+            <div class="code-panel-title">
+              🐛 Code Debugger
+              <span class="feat-badge ai">AI • 1 CREDIT</span>
+            </div>
             <div class="code-panel-desc">Paste broken code → receive fixed code with diagnosis</div>
           </div>
         </div>
@@ -1042,7 +1078,7 @@
           <div class="code-output" id="debugOutput"></div>
           <div class="code-copy-row" id="debugCopyRow" style="display:none">
             <span class="code-token-badge" id="debugTokenBadge"></span>
-            <button class="code-copy-btn" onclick="copyCodeOutput('debugOutput','debugCopyBtn')" id="debugCopyBtn">Copy Fixed Code</button>
+            <button class="code-copy-btn" onclick="copyCodeOutput('debugOutput')" id="debugCopyBtn">Copy Fixed Code</button>
           </div>
         </div>
       </div>
@@ -1051,7 +1087,10 @@
       <div class="code-panel">
         <div class="code-panel-head">
           <div>
-            <div class="code-panel-title">⚡ Code Generator</div>
+            <div class="code-panel-title">
+              ⚡ Code Generator
+              <span class="feat-badge ai">AI • 1 CREDIT</span>
+            </div>
             <div class="code-panel-desc">Describe your requirements → get production-ready implementation</div>
           </div>
         </div>
@@ -1068,7 +1107,7 @@
           <div class="code-output" id="genOutput"></div>
           <div class="code-copy-row" id="genCopyRow" style="display:none">
             <span class="code-token-badge" id="genTokenBadge"></span>
-            <button class="code-copy-btn" onclick="copyCodeOutput('genOutput','genCopyBtn')" id="genCopyBtn">Copy Code</button>
+            <button class="code-copy-btn" onclick="copyCodeOutput('genOutput')" id="genCopyBtn">Copy Code</button>
           </div>
         </div>
       </div>
@@ -1081,13 +1120,16 @@
   <div class="app-page" id="page-prompt-studio">
     <div class="rs-header">
       <div>
-        <div class="rs-eyebrow"><span class="dot"></span>Prompt Engineering Studio</div>
+        <div class="rs-eyebrow">
+          <span class="dot"></span>Prompt Engineering Studio
+          <span class="feat-badge ai">AI POWERED</span>
+        </div>
         <h1 class="rs-title">Architect <span class="accent">master prompts</span><br>like a pro</h1>
         <p class="rs-sub">Craft production-grade system prompts or analyze existing prompts against industry benchmarks.</p>
       </div>
       <div class="rs-meta">
+        OPTIMIZER: <b>STRUCTURED ARCHITECT</b><br>
         ENGINE: <b>MULTI-AI</b><br>
-        MODE: <b>PROMPT ARCHITECT</b><br>
         STATUS: <b style="color:#3DDC84">READY</b>
       </div>
     </div>
@@ -1117,7 +1159,7 @@
           </div>
           <button class="feat-run-btn" id="btnExecutePromptAction" style="align-self:flex-start;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"/></svg>
-            <span id="btnPromptActionText">Generate Master Prompt</span>
+            <span id="btnPromptActionText">Generate Master Prompt (AI)</span>
           </button>
         </div>
       </div>
@@ -1146,72 +1188,104 @@
   <footer class="app-footer">
     <div class="footer-row">
       <div>
-        <b>Resume Scanner Pro</b> — Free Multi-AI ATS Optimizer &amp; Career Studio
+        <b>AI Developer Toolkit</b> — Production Multi-AI ATS Optimizer &amp; Career Suite
       </div>
       <div class="footer-links">
         <a onclick="openModal('privacyModal')">Privacy Policy</a>
         <a onclick="openModal('termsModal')">Terms of Service</a>
         <a onclick="openModal('aboutModal')">About &amp; Contact</a>
-        <a onclick="openModal('hostingModal')">Host Free on Vercel/Netlify</a>
-        </div>
+        <a onclick="openModal('hostingModal')">Host Free on Cloudflare/Vercel</a>
+      </div>
     </div>
     <div style="font-size:11px; color:#64748B;">
-      Client-side processing: Your resumes, job descriptions, and API credentials are kept securely in your browser's local memory and are never stored on external tracking servers.
+      Client-side processing: Resume parsing, keyword analysis, and score calculation run locally in your browser. Default AI requests are securely routed via a rate-limited serverless gateway with zero personal data retention.
     </div>
   </footer>
 
 </div><!-- /rs-wrap -->
 
 <!-- ═══════════════════════════════════════════
-     MODAL: MULTI-AI SETTINGS
+     MODAL: FEATURE LOCK & QUOTA NOTICE
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="lockModal">
+  <div class="modal-card">
+    <div class="modal-title">
+      <span>🔒 Daily AI Limit Reached</span>
+      <button class="modal-close" onclick="closeModal('lockModal')">&times;</button>
+    </div>
+    <div class="lock-banner">
+      <div class="lock-icon">⚡</div>
+      <div class="lock-title">Free Daily Quota Used (3/3)</div>
+      <div class="lock-sub">To keep server operations free and open for everyone, anonymous AI requests are limited to 3 per day. Your quota resets at 00:00 UTC.</div>
+    </div>
+    <div style="background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; margin-bottom:16px; font-size:12.5px; line-height:1.6; color:#CBD5E1;">
+      <div style="color:var(--green); font-weight:600; margin-bottom:6px;">✓ All Local Features Remain 100% Free &amp; Unlimited:</div>
+      <div>• Full ATS Resume Scanner &amp; Match Scoring</div>
+      <div>• Client-Side PDF &amp; Word Document Extraction</div>
+      <div>• Keyword Coverage &amp; Section Readability Checks</div>
+      <div>• 5-Step Resume Builder Wizard &amp; PDF Export</div>
+    </div>
+    <div style="font-size:12px; color:var(--text-dim); margin-bottom:16px;">
+      <b>Self-Hosting / Developers:</b> You can bypass the shared serverless limit at any time by configuring your own personal API key in AI Settings.
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:10px;">
+      <button class="rs-ghost-btn" onclick="closeModal('lockModal')">Continue Using Free Tools</button>
+      <button class="rs-ghost-btn primary" onclick="closeModal('lockModal'); openSettingsModal();">Configure Own Key →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MODAL: AI GATEWAY & OPTIONAL BYOK SETTINGS
 ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="apiModal">
   <div class="modal-card">
     <div class="modal-title">
-      <span>⚙️ AI Model &amp; Provider Settings</span>
+      <span>⚙️ AI Gateway &amp; Model Settings</span>
       <button class="modal-close" onclick="closeModal('apiModal')">&times;</button>
     </div>
-
     <div class="modal-desc">
-      Select your preferred AI engine. You can use <b>Free Demo Mode</b> right away without any key, or plug in your own API key for Gemini, OpenAI, Claude, DeepSeek, Groq, or OpenRouter.
+      By default, requests run through our secure <b>Serverless AI Gateway</b> with zero configuration required. Developers can also connect a custom BYOK key for unlimited private usage.
     </div>
 
     <div class="rgen-field" style="margin-bottom:14px;">
-      <div class="rgen-label">AI Engine Provider</div>
-      <select class="rgen-input" id="aiProviderSelect" style="font-family:var(--mono); font-size:12px;">
-        <option value="demo">✨ Smart Free Demo (No API Key Required)</option>
-        <option value="gemini">Google Gemini (Gemini 2.5 Flash, 2.0, 1.5 Pro)</option>
-        <option value="openai">OpenAI (GPT-4o, GPT-4o Mini, o3-mini)</option>
-        <option value="anthropic">Anthropic Claude (Claude 3.5 Sonnet, 3.5 Haiku)</option>
-        <option value="deepseek">DeepSeek (DeepSeek V3, DeepSeek R1)</option>
-        <option value="groq">Groq (Ultra-Fast Llama 3.3 70B, Mixtral)</option>
-        <option value="openrouter">OpenRouter (Universal 200+ Models)</option>
+      <div class="rgen-label">AI Connection Mode</div>
+      <select class="rgen-input" id="aiModeSelect" style="font-family:var(--mono); font-size:12px;">
+        <option value="gateway">🌐 Managed Serverless Gateway (Default, 3 Free/Day)</option>
+        <option value="custom">🔑 Bring Your Own Key (Unlimited Private Usage)</option>
       </select>
     </div>
 
-    <div class="rgen-field" id="modelSelectRow" style="margin-bottom:14px;">
-      <div class="rgen-label">Model Selection</div>
-      <select class="rgen-input" id="aiModelSelect" style="font-family:var(--mono); font-size:12px;"></select>
-    </div>
+    <!-- Custom BYOK options (shown when mode == custom) -->
+    <div id="customKeySection" style="display:none;">
+      <div class="rgen-field" style="margin-bottom:14px;">
+        <div class="rgen-label">Custom Provider</div>
+        <select class="rgen-input" id="aiProviderSelect" style="font-family:var(--mono); font-size:12px;">
+          <option value="gemini">Google Gemini (Gemini 2.5 Flash, 2.0, 1.5 Pro)</option>
+          <option value="openai">OpenAI (GPT-4o, GPT-4o Mini, o3-mini)</option>
+          <option value="anthropic">Anthropic Claude (Claude 3.5 Sonnet, 3.5 Haiku)</option>
+          <option value="deepseek">DeepSeek (DeepSeek V3, DeepSeek R1)</option>
+          <option value="groq">Groq (Ultra-Fast Llama 3.3 70B)</option>
+          <option value="openrouter">OpenRouter (Universal 200+ Models)</option>
+        </select>
+      </div>
 
-    <div class="rgen-field" id="apiKeyRow" style="margin-bottom:14px;">
-      <div class="rgen-label" id="apiKeyLabel">API Key</div>
-      <div style="display:flex; gap:8px;">
-        <input class="rgen-input" id="apiKeyInput" type="password" placeholder="Enter API key...">
-        <button class="rs-ghost-btn" id="btnToggleKeyVis" onclick="toggleKeyVisibility()" style="padding:0 10px;">👁</button>
+      <div class="rgen-field" style="margin-bottom:14px;">
+        <div class="rgen-label" id="apiKeyLabel">Personal API Key</div>
+        <input class="rgen-input" id="apiKeyInput" type="password" placeholder="sk-... or AIzaSy...">
       </div>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
       <button class="rs-ghost-btn" id="btnTestConn" onclick="testAIConnection()">Test Connection</button>
-      <button class="rs-ghost-btn primary" onclick="saveAISettings()">Save AI Settings</button>
+      <button class="rs-ghost-btn primary" onclick="saveAISettings()">Save Settings</button>
     </div>
     <div id="testConnResult" style="font-family:var(--mono); font-size:11.5px; margin-top:10px;"></div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
-     LEGAL & HOSTING MODALS (Required for AdSense)
+     LEGAL & HOSTING MODALS
 ════════════════════════════════════════════ -->
 
 <!-- PRIVACY POLICY -->
@@ -1223,15 +1297,12 @@
     </div>
     <div class="modal-desc" style="max-height:60vh; overflow-y:auto; font-size:13px; color:#CBD5E1; line-height:1.6;">
       <p><b>Last Updated: September 2026</b></p>
-      <p>Your privacy is our utmost priority. This Privacy Policy details how Resume Scanner Pro handles candidate and resume information:</p>
       <h4>1. Local In-Browser Processing</h4>
-      <p>All resume text parsing, keyword extraction, and score calculations run directly in your web browser. We do not transmit, sell, or retain copies of your uploaded resumes or personal contact details on centralized databases.</p>
-      <h4>2. Third-Party AI APIs</h4>
-      <p>When you use advanced AI features (such as cover letter generation or code tools), requests are sent securely to the selected AI provider (Google, OpenAI, Anthropic, DeepSeek, or Groq) using SSL encryption according to their respective enterprise API privacy terms.</p>
-      <h4>3. Cookies and Advertising</h4>
-      <p>This website may display advertisements served by Google AdSense and its partners. Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to this website or other websites. Users may opt out of personalized advertising by visiting Google Ads Settings.</p>
-      <h4>4. Contact</h4>
-      <p>If you have questions regarding this policy, please reach out via the Contact section.</p>
+      <p>Resume parsing, keyword extraction, and score calculations run directly in your web browser. We do not transmit or retain copies of your uploaded resumes on permanent databases.</p>
+      <h4>2. Rate Limiting</h4>
+      <p>Anonymous rate limiting is enforced by hashing client IP addresses with the current date string (YYYY-MM-DD) in ephemeral memory to prevent automated abuse without tracking browsing history.</p>
+      <h4>3. AI API Requests</h4>
+      <p>When you trigger an AI feature, only the required text snippet is forwarded via SSL encryption to the AI provider endpoint under enterprise privacy terms.</p>
     </div>
   </div>
 </div>
@@ -1243,8 +1314,8 @@
       <span>Terms of Service</span>
       <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
     </div>
-    <div class="modal-desc" style="max-height:60vh; overflow-y:auto; font-size:13px; color:#CBD5E1; line-height:1.6;">
-      <p>By using Resume Scanner Pro, you agree to these Terms of Service. The service is provided "as is" to help job seekers evaluate and improve their resumes. We do not guarantee employment, interviews, or hiring outcomes. You are responsible for ensuring that all information you submit accurately reflects your authentic qualifications.</p>
+    <div class="modal-desc" style="font-size:13px; color:#CBD5E1; line-height:1.6;">
+      <p>The AI Developer Toolkit is provided "as is". We do not guarantee hiring or interview outcomes. Users are responsible for ensuring that all resume statements truthfully reflect their authentic experience.</p>
     </div>
   </div>
 </div>
@@ -1257,9 +1328,8 @@
       <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
     </div>
     <div class="modal-desc" style="font-size:13px; color:#CBD5E1; line-height:1.6;">
-      <p><b>Resume Scanner Pro</b> is an open-source, multi-AI career platform built to help candidates navigate modern Applicant Tracking Systems (ATS) and interview processes.</p>
-      <p>Powered by modern client-side Web APIs, PDF.js, Mammoth.js, and leading LLMs.</p>
-      <p><b>Inquiries &amp; Support:</b> <a href="mailto:support@example.com" style="color:var(--amber);">support@example.com</a></p>
+      <p><b>AI Developer Toolkit</b> is an open-source, production developer platform created by <b>AbhishekT-T</b>.</p>
+      <p>GitHub Repository: <a href="https://github.com/AbhishekT-T/AI-Developer-Toolkit" target="_blank" style="color:var(--amber);">github.com/AbhishekT-T/AI-Developer-Toolkit</a></p>
     </div>
   </div>
 </div>
@@ -1268,35 +1338,22 @@
 <div class="modal-overlay" id="hostingModal">
   <div class="modal-card">
     <div class="modal-title">
-      <span>🚀 How to Host Free in 2 Minutes</span>
+      <span>🚀 Zero-Cost Public Hosting Guide</span>
       <button class="modal-close" onclick="closeModal('hostingModal')">&times;</button>
     </div>
     <div class="modal-desc" style="font-size:13px; color:#CBD5E1; line-height:1.6; max-height:60vh; overflow-y:auto;">
-      <p>This project is 100% static and zero-backend, making it completely free to host on all top hosting platforms:</p>
-      <h4>Option A: Vercel (Recommended)</h4>
-      <ol style="padding-left:18px;">
-        <li>Push this folder to a GitHub repository.</li>
-        <li>Go to <a href="https://vercel.com" target="_blank" style="color:var(--amber);">vercel.com</a> and click "Add New Project".</li>
-        <li>Select your GitHub repo and click <b>Deploy</b>. Done in 30 seconds!</li>
-      </ol>
-      <h4>Option B: Netlify</h4>
-      <ol style="padding-left:18px;">
-        <li>Go to <a href="https://app.netlify.com/drop" target="_blank" style="color:var(--amber);">app.netlify.com/drop</a>.</li>
-        <li>Drag and drop this project folder directly onto the screen.</li>
-        <li>Your site is instantly live on a custom <code>.netlify.app</code> domain!</li>
-      </ol>
-      <h4>Option C: GitHub Pages</h4>
-      <ol style="padding-left:18px;">
-        <li>Push the code to GitHub.</li>
-        <li>Go to Repo <b>Settings → Pages</b>.</li>
-        <li>Set Branch to <code>main</code> and save.</li>
-      </ol>
+      <h4>1. Cloudflare Pages (Primary &amp; Recommended)</h4>
+      <p>Connect your GitHub repository to Cloudflare Pages. The included <code>functions/api/ai.js</code> automatically mounts the serverless gateway!</p>
+      <h4>2. Vercel</h4>
+      <p>Import repo on Vercel. The included <code>api/ai.js</code> Edge functions handle serverless routing seamlessly.</p>
+      <h4>3. Netlify</h4>
+      <p>Drag &amp; drop or connect Git with <code>netlify.toml</code> and <code>netlify/functions/ai.mjs</code>.</p>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
-     JAVASCRIPT CORE LOGIC
+     JAVASCRIPT APPLICATION ENGINE
 ════════════════════════════════════════════ -->
 <script>
 (function() {
@@ -1316,10 +1373,34 @@
     fileNameLabel: $('fileNameLabel'),
     resumeDropZone: $('resumeDropZone'),
     resumeWordCount: $('resumeWordCount'),
-    jobWordCount: $('jobWordCount')
+    jobWordCount: $('jobWordCount'),
+    quotaBadgeText: $('quotaBadgeText'),
+    quotaBadgeBtn: $('quotaBadgeBtn')
   };
 
-  /* Navigation between pages */
+  /* DOM Sanitization (Anti-XSS) */
+  function sanitizeHtml(str) {
+    if (!str) return '';
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+  }
+
+  function renderSafeMarkdown(md) {
+    if (!md) return '';
+    let safe = sanitizeHtml(md);
+    // Convert code blocks
+    safe = safe.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="md-codeblock"><code>$2</code></pre>');
+    // Headers
+    safe = safe.replace(/^# (.*$)/gim, '<h2 class="md-h1">$1</h2>');
+    safe = safe.replace(/^## (.*$)/gim, '<h3 class="md-h2">$1</h3>');
+    safe = safe.replace(/^### (.*$)/gim, '<h4 class="md-h3">$1</h4>');
+    // Bold
+    safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="md-bold">$1</strong>');
+    return safe;
+  }
+
+  /* Page Navigation */
   function openPage(pageId) {
     document.querySelectorAll('.page-nav-btn[data-page]').forEach(b => {
       b.classList.toggle('active', b.dataset.page === pageId);
@@ -1338,15 +1419,8 @@
   /* Modals */
   window.openModal = id => { const m = $(id); if (m) m.classList.add('active'); };
   window.closeModal = id => { const m = $(id); if (m) m.classList.remove('active'); };
-
-  window.openSettingsModal = () => openModal("apiModal");
-
-  window.switchSettingsTab = tab => {
-    $('tabBtnAi').classList.toggle('active', tab === 'ai');
-    $('tabBtnAds').classList.toggle('active', tab === 'ads');
-    $('settingsTabAi').style.display = tab === 'ai' ? 'block' : 'none';
-    $('settingsTabAds').style.display = tab === 'ads' ? 'block' : 'none';
-  };
+  window.showQuotaModal = () => openModal('lockModal');
+  window.openSettingsModal = () => openModal('apiModal');
 
   /* Word Counters */
   function updateWordCounts() {
@@ -1357,6 +1431,536 @@
   }
   els.resumeInput.addEventListener('input', updateWordCounts);
   els.jobInput.addEventListener('input', updateWordCounts);
+
+  /* ──────────────────────────────────────────────
+     QUOTA & FEATURE LOCK SERVICE
+  ────────────────────────────────────────────── */
+  const QuotaService = {
+    limit: 3,
+    remaining: 3,
+    used: 0,
+
+    async init() {
+      try {
+        const res = await fetch('/api/usage', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          this.limit = data.limit ?? 3;
+          this.remaining = data.remaining ?? 3;
+          this.used = data.used ?? 0;
+          this.updateUI();
+          return;
+        }
+      } catch {}
+      // Fallback local memory tracker
+      this.updateUI();
+    },
+
+    decrement() {
+      if (this.remaining > 0) this.remaining--;
+      this.used++;
+      this.updateUI();
+    },
+
+    updateUI() {
+      if (els.quotaBadgeText) {
+        els.quotaBadgeText.textContent = `⚡ AI: ${this.remaining} Left Today`;
+      }
+      if (els.quotaBadgeBtn) {
+        els.quotaBadgeBtn.classList.toggle('locked', this.remaining <= 0);
+      }
+    },
+
+    canUseAI() {
+      const mode = localStorage.getItem('ai_mode') || 'gateway';
+      if (mode === 'custom' && localStorage.getItem('custom_api_key')) return true;
+      return this.remaining > 0;
+    }
+  };
+  QuotaService.init();
+
+  /* ──────────────────────────────────────────────
+     UNIFIED AI SERVICE (Streaming & Gateway)
+  ────────────────────────────────────────────── */
+  const UnifiedAIService = {
+    async callStream(prompt, taskType = 'DEFAULT', onChunk, onDone, onError) {
+      const mode = localStorage.getItem('ai_mode') || 'gateway';
+      const customKey = localStorage.getItem('custom_api_key');
+
+      // 1. If user supplied a custom BYOK key, run direct provider call
+      if (mode === 'custom' && customKey) {
+        return this.callDirectProvider(prompt, customKey, onChunk, onDone, onError);
+      }
+
+      // 2. Check daily limit
+      if (!QuotaService.canUseAI()) {
+        openModal('lockModal');
+        const err = new Error('Daily AI limit reached (3/3 used). Resets at 00:00 UTC.');
+        if (onError) onError(err);
+        throw err;
+      }
+
+      // 3. Dispatch to secure serverless gateway /api/ai
+      try {
+        const response = await fetch('/api/ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, taskType, isJson: false })
+        });
+
+        if (response.status === 429) {
+          QuotaService.remaining = 0;
+          QuotaService.updateUI();
+          openModal('lockModal');
+          throw new Error('Daily free AI limit reached. Please try again tomorrow.');
+        }
+
+        if (response.status === 503) {
+          throw new Error('Serverless AI service is currently unavailable on this deployment. Please use the free local tools or configure a custom key in AI Settings.');
+        }
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || `Serverless AI error: ${response.status}`);
+        }
+
+        // Deduct from quota on success
+        QuotaService.decrement();
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.chunk && onChunk) onChunk(parsed.chunk);
+              } catch {}
+            }
+          }
+        }
+        if (onDone) onDone();
+      } catch (err) {
+        if (onError) onError(err);
+        throw err;
+      }
+    },
+
+    async callJSON(prompt, taskType = 'DEFAULT') {
+      let text = '';
+      await this.callStream(prompt, taskType, chunk => { text += chunk; });
+      const clean = text.replace(/```json|```/g, '').trim();
+      return JSON.parse(clean);
+    },
+
+    async callDirectProvider(prompt, apiKey, onChunk, onDone) {
+      const provider = localStorage.getItem('custom_provider') || 'gemini';
+      if (provider === 'gemini') {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${apiKey}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        if (!res.ok) throw new Error(`Gemini error ${res.status}`);
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                const chunk = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (chunk && onChunk) onChunk(chunk);
+              } catch {}
+            }
+          }
+        }
+        if (onDone) onDone();
+      }
+    }
+  };
+
+  /* Unified global aliases */
+  window.callClaude = (prompt, onChunk, onDone, onError, taskType) => UnifiedAIService.callStream(prompt, taskType || 'DEFAULT', onChunk, onDone, onError);
+  window.callClaudeJSON = (prompt, taskType) => UnifiedAIService.callJSON(prompt, taskType || 'DEFAULT');
+
+  /* ──────────────────────────────────────────────
+     CLIENT-SIDE FILE EXTRACTION (PDF, DOCX, TXT)
+  ────────────────────────────────────────────── */
+  async function extractTextFromPDF(file) {
+    const buffer = await file.arrayBuffer();
+    if (!window.pdfjsLib) throw new Error('PDF reader engine is still initializing.');
+    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n\n';
+    }
+    return fullText.trim();
+  }
+
+  async function extractTextFromDOCX(file) {
+    const buffer = await file.arrayBuffer();
+    if (!window.mammoth) throw new Error('DOCX reader engine is not loaded.');
+    const result = await window.mammoth.extractRawText({ arrayBuffer: buffer });
+    return result.value.trim();
+  }
+
+  function readAsPlainText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = ev => resolve(ev.target.result);
+      reader.onerror = err => reject(err);
+      reader.readAsText(file);
+    });
+  }
+
+  async function handleFile(file) {
+    if (!file) return;
+    const name = file.name;
+    const ext = name.split('.').pop().toLowerCase();
+    els.fileNameLabel.textContent = `Extracting ${name}...`;
+    els.fileNameLabel.style.color = 'var(--yellow)';
+
+    try {
+      let text = '';
+      if (ext === 'pdf') {
+        text = await extractTextFromPDF(file);
+      } else if (ext === 'docx') {
+        text = await extractTextFromDOCX(file);
+      } else {
+        text = await readAsPlainText(file);
+      }
+
+      if (!text || !text.trim()) {
+        throw new Error('No text found in file. Scanned images may need OCR.');
+      }
+
+      els.resumeInput.value = text.slice(0, 35000);
+      els.fileNameLabel.textContent = `✓ ${name} loaded (Free & Local)`;
+      els.fileNameLabel.style.color = 'var(--green)';
+      updateWordCounts();
+    } catch (err) {
+      els.fileNameLabel.textContent = `Error: ${err.message}`;
+      els.fileNameLabel.style.color = 'var(--red)';
+    }
+  }
+
+  els.uploadBtn.addEventListener('click', () => els.fileInput.click());
+  els.fileInput.addEventListener('change', e => {
+    if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  const dropZone = els.resumeDropZone;
+  ['dragenter', 'dragover'].forEach(name => {
+    dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  });
+  ['dragleave', 'drop'].forEach(name => {
+    dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.remove('drag-over'); });
+  });
+  dropZone.addEventListener('drop', e => {
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  /* ──────────────────────────────────────────────
+     ATS HEURISTIC SCANNER (Instant Local Analysis)
+  ────────────────────────────────────────────── */
+  function extractKeywords(text) {
+    const commonWords = new Set(['and','the','with','for','you','that','this','from','have','will','your','our','their','are','was','were','been','about','into','over','more','other','some','such','only','also','than','then','them','these','those','what','when','where','which','who','whom','whose','why','how','all','any','both','each','few','most','much','such','than','too','very','require','requirements','responsibilities','qualifications']);
+    const tokens = text.toLowerCase().replace(/[^a-z0-9+#.-]/g, ' ').split(/\s+/);
+    const counts = {};
+    for (const t of tokens) {
+      if (t.length > 2 && !commonWords.has(t) && !/^\d+$/.test(t)) {
+        counts[t] = (counts[t] || 0) + 1;
+      }
+    }
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 18)
+      .map(([word]) => word);
+  }
+
+  function keywordPresent(kw, text) {
+    const pattern = new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+    return pattern.test(text);
+  }
+
+  function detectSections(text) {
+    const lower = text.toLowerCase();
+    return {
+      hasExp: /\b(experience|employment|work history|career)\b/.test(lower),
+      hasEdu: /\b(education|degree|university|college|bachelor|master|phd)\b/.test(lower),
+      hasSkills: /\b(skills|technologies|tools|competencies|stack)\b/.test(lower),
+      hasContact: /[\w.-]+@[\w.-]+\.\w+/.test(text)
+    };
+  }
+
+  function analyzeResume(resumeText, jobText) {
+    const keywords = extractKeywords(jobText);
+    const kwResults = keywords.map(term => ({ term, present: keywordPresent(term, resumeText) }));
+    const hits = kwResults.filter(k => k.present).length;
+    const total = kwResults.length || 1;
+    const kwRatio = hits / total;
+
+    const sections = detectSections(resumeText);
+    const secScore = [sections.hasExp, sections.hasEdu, sections.hasSkills, sections.hasContact].filter(Boolean).length / 4;
+
+    const matchScore = Math.min(99, Math.max(20, Math.round((kwRatio * 0.65 + secScore * 0.35) * 100)));
+
+    let verdict = 'Strong match — apply with confidence';
+    let verdictClass = 'good';
+    if (matchScore < 45) {
+      verdict = 'Weak match — significant gaps detected';
+      verdictClass = 'low';
+    } else if (matchScore < 70) {
+      verdict = 'Reasonable fit — tailoring recommended';
+      verdictClass = 'mid';
+    }
+
+    const strengths = [];
+    kwResults.filter(k => k.present).slice(0, 5).forEach(k => {
+      strengths.push(`Resume matches required skill: "${k.term}"`);
+    });
+    if (sections.hasExp) strengths.push('Clear work experience section detected.');
+    if (sections.hasContact) strengths.push('Professional contact details found.');
+
+    const weaknesses = [];
+    kwResults.filter(k => !k.present).slice(0, 5).forEach(k => {
+      weaknesses.push(`Missing keyword found in posting: "${k.term}"`);
+    });
+    if (!sections.hasSkills) weaknesses.push('No dedicated Skills section header detected.');
+
+    return { matchScore, verdict, verdictClass, strengths, weaknesses, kwResults };
+  }
+
+  /* ──────────────────────────────────────────────
+     SCAN RENDERING & CLOSED-LOOP IMPROVEMENT
+  ────────────────────────────────────────────── */
+  let currentScanResult = null;
+
+  function renderIdle() {
+    els.resultsPanel.innerHTML = `
+      <div class="rs-idle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        <div class="t1">ATS results will appear here</div>
+        <div class="t2">Paste your resume and target role on the left, then click <b>Run ATS Scan</b>. 100% free and local.</div>
+      </div>`;
+  }
+  renderIdle();
+
+  function renderScanning() {
+    els.resultsPanel.innerHTML = `
+      <div class="rs-scanning">
+        <div class="rs-scan-doc">
+          <div class="ln w60"></div><div class="ln w80"></div><div class="ln w40"></div>
+          <div class="ln w80"></div><div class="ln w60"></div>
+          <div class="rs-scan-beam"></div>
+        </div>
+        <div class="rs-scan-label">Evaluating Keywords &amp; Format Hygiene...</div>
+        <div class="rs-scan-status">Running local heuristic matcher (0 API credits used)</div>
+      </div>`;
+  }
+
+  function renderResult(res) {
+    currentScanResult = res;
+    const circumference = 2 * Math.PI * 38;
+    const offset = circumference - (res.matchScore / 100) * circumference;
+    const strokeColor = res.verdictClass === 'good' ? 'var(--green)' : res.verdictClass === 'mid' ? 'var(--yellow)' : 'var(--red)';
+
+    const kwPills = res.kwResults.map(k => `
+      <span class="rs-kw ${k.present ? 'hit' : 'miss'}">${k.present ? '✓' : '✕'} ${sanitizeHtml(k.term)}</span>
+    `).join('');
+
+    const strengthsHtml = res.strengths.map(s => `
+      <div class="rs-list-item strength">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
+        <span>${sanitizeHtml(s)}</span>
+      </div>
+    `).join('');
+
+    const gapsHtml = res.weaknesses.map(w => `
+      <div class="rs-list-item gap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+        <span>${sanitizeHtml(w)}</span>
+      </div>
+    `).join('');
+
+    els.resultsPanel.innerHTML = `
+      <div class="rs-result">
+        <div class="rs-verdict-row">
+          <div class="rs-gauge">
+            <svg viewBox="0 0 92 92">
+              <circle class="track" cx="46" cy="46" r="38"/>
+              <circle class="fillc" cx="46" cy="46" r="38" stroke="${strokeColor}" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+            </svg>
+            <div class="pct" style="color:${strokeColor}">${res.matchScore}%</div>
+          </div>
+          <div class="rs-verdict-text">
+            <div class="label">ATS Eligibility Match <span class="feat-badge free">FREE • LOCAL</span></div>
+            <div class="verdict ${res.verdictClass}">${sanitizeHtml(res.verdict)}</div>
+          </div>
+        </div>
+
+        <div class="rs-section-title strength">Match Highlights</div>
+        <div class="rs-list">${strengthsHtml}</div>
+
+        <div class="rs-section-title gap">Keyword Gaps &amp; Opportunities</div>
+        <div class="rs-list">${gapsHtml}</div>
+
+        <div class="rs-section-title">Keyword Density Coverage</div>
+        <div class="rs-keywords">${kwPills}</div>
+
+        <!-- CLOSED-LOOP AI RESUME IMPROVEMENT CARD -->
+        <div class="ai-improve-card">
+          <div class="ai-improve-head">
+            <div>
+              <div class="ai-improve-title">
+                ✨ Closed-Loop Resume Improvement
+                <span class="feat-badge ai">AI • 1 CREDIT</span>
+              </div>
+              <div class="ai-improve-desc">Automatically tailor this resume to resolve missing keywords and punch up action verbs while strictly preserving your authentic experience.</div>
+            </div>
+            <button class="feat-run-btn" id="btnImproveResume">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"/></svg>
+              Improve with AI
+            </button>
+          </div>
+          <div class="diff-container" id="diffContainer">
+            <div class="diff-box" id="boxImprovedResume"></div>
+            <div class="feat-copy-row" style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+              <button class="feat-copy-btn" id="btnCopyImprovedResume">Copy Improved Resume</button>
+              <button class="rs-ghost-btn primary" id="btnApplyAndRescan" style="font-weight:700;">⚡ Apply &amp; Re-scan in ATS →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rs-footer-actions">
+          <button class="rs-ghost-btn" onclick="window.print()">Print / Export PDF</button>
+          <button class="rs-ghost-btn" onclick="copyScanSummary()">Copy Summary</button>
+        </div>
+      </div>`;
+
+    // Bind AI Resume Improvement Loop
+    $('btnImproveResume').addEventListener('click', runResumeImprovement);
+  }
+
+  /* Closed Loop AI Resume Improvement Execution */
+  async function runResumeImprovement() {
+    const resume = els.resumeInput.value.trim();
+    const job = els.jobInput.value.trim();
+    if (!resume || !job) return;
+
+    const diffContainer = $('diffContainer');
+    const box = $('boxImprovedResume');
+    const btn = $('btnImproveResume');
+
+    diffContainer.classList.add('visible');
+    box.textContent = '';
+    box.classList.add('streaming');
+    btn.disabled = true;
+
+    const missingKws = (currentScanResult?.weaknesses || []).map(w => w.replace(/^Missing keyword found in posting: /,'')).join(', ');
+
+    const prompt = `You are an expert ATS Resume Optimization Specialist.
+Improve and tailor the candidate's resume for the target job posting below.
+
+STRICT FACTUAL CONSTRAINTS:
+- Preserve all factual roles, companies, dates, and background. Never invent fake metrics or hallucinate non-existent experience.
+- Naturally weave in relevant missing keywords where applicable: ${missingKws}
+- Upgrade passive bullet phrasing into active, punchy action-verb accomplishments.
+- Maintain standardized ALL-CAPS section headers (SUMMARY, EXPERIENCE, EDUCATION, SKILLS).
+- Output the complete, production-ready plain-text resume directly without meta commentary.
+
+RESUME TO IMPROVE:
+${resume.slice(0, 3500)}
+
+TARGET JOB POSTING:
+${job.slice(0, 2000)}`;
+
+    try {
+      await callClaude(prompt, chunk => {
+        box.textContent += chunk;
+        box.scrollTop = box.scrollHeight;
+      }, () => {
+        box.classList.remove('streaming');
+        btn.disabled = false;
+
+        // Bind Apply & Rescan button
+        $('btnApplyAndRescan').onclick = () => {
+          els.resumeInput.value = box.textContent;
+          updateWordCounts();
+          els.scanBtn.click();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        $('btnCopyImprovedResume').onclick = () => {
+          navigator.clipboard.writeText(box.textContent).then(() => alert('Improved resume copied!'));
+        };
+      }, err => {
+        box.classList.remove('streaming');
+        box.textContent = `Error: ${err.message}`;
+        btn.disabled = false;
+      }, 'TASK_RESUME_IMPROVE');
+    } catch (e) {
+      box.classList.remove('streaming');
+      box.textContent = `Error: ${e.message}`;
+      btn.disabled = false;
+    }
+  }
+
+  window.copyScanSummary = function() {
+    const text = els.resultsPanel.innerText;
+    navigator.clipboard.writeText(text).then(() => alert('Scan results copied to clipboard!'));
+  };
+
+  els.scanBtn.addEventListener('click', () => {
+    const resume = els.resumeInput.value.trim();
+    const job = els.jobInput.value.trim();
+    if (!resume || !job) {
+      alert('Please provide both a resume and a job description before scanning.');
+      return;
+    }
+
+    els.scanBtn.disabled = true;
+    els.scanBtnText.textContent = 'Scanning (Local Engine)...';
+    els.statusText.textContent = 'SCANNING';
+    els.statusText.style.color = 'var(--amber)';
+    renderScanning();
+
+    setTimeout(() => {
+      try {
+        const result = analyzeResume(resume, job);
+        renderResult(result);
+      } catch (err) {
+        els.resultsPanel.innerHTML = `<div class="rs-error"><div class="t1">Scan Error</div><div class="t2">${sanitizeHtml(err.message)}</div></div>`;
+      } finally {
+        els.scanBtn.disabled = false;
+        els.scanBtnText.textContent = 'Run ATS Scan (Free & Local)';
+        els.statusText.textContent = 'READY';
+        els.statusText.style.color = 'var(--green)';
+      }
+    }, 600);
+  });
 
   /* ──────────────────────────────────────────────
      SAMPLE RESUMES & JDs
@@ -1417,10 +2021,6 @@ Product Manager | Peak Analytics | 2021 – Present
 • Owned enterprise reporting product roadmap, driving $2.8M in net new ARR across 45 enterprise accounts.
 • Partnered with 12 engineers and 2 UX designers to launch AI-driven automated insight digests, reaching 65% monthly active user adoption.
 • Conducted 80+ customer discovery interviews to identify retention drop-offs, resulting in a 14% improvement in 90-day churn.
-
-Associate Product Manager | VentureBridge | 2019 – 2021
-• Managed product backlog, sprint planning, and bi-weekly releases for mobile analytics dashboard.
-• A/B tested onboarding user flows, improving activation rate by 23%.
 
 EDUCATION
 B.A. in Economics & Data Science | UC Berkeley | 2019
@@ -1494,7 +2094,7 @@ Requirements:
     if (!SAMPLES[key]) return;
     els.resumeInput.value = SAMPLES[key].resume;
     els.jobInput.value = SAMPLES[key].jd;
-    els.fileNameLabel.textContent = `Sample loaded: ${key.toUpperCase()}`;
+    els.fileNameLabel.textContent = `Sample loaded: ${key.toUpperCase()} (0 Credits)`;
     els.fileNameLabel.style.color = 'var(--cyan)';
     updateWordCounts();
   };
@@ -1505,768 +2105,6 @@ Requirements:
     els.fileNameLabel.textContent = '';
     updateWordCounts();
   };
-
-  /* ──────────────────────────────────────────────
-     CLIENT-SIDE FILE EXTRACTION (PDF, DOCX, TXT)
-  ────────────────────────────────────────────── */
-  async function extractTextFromPDF(file) {
-    const buffer = await file.arrayBuffer();
-    if (!window.pdfjsLib) throw new Error('PDF reader engine is still initializing. Please wait 2 seconds.');
-    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
-    let fullText = '';
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items.map(item => item.str).join(' ');
-      fullText += pageText + '\n\n';
-    }
-    return fullText.trim();
-  }
-
-  async function extractTextFromDOCX(file) {
-    const buffer = await file.arrayBuffer();
-    if (!window.mammoth) throw new Error('DOCX reader engine is not loaded.');
-    const result = await window.mammoth.extractRawText({ arrayBuffer: buffer });
-    return result.value.trim();
-  }
-
-  function readAsPlainText(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = ev => resolve(ev.target.result);
-      reader.onerror = err => reject(err);
-      reader.readAsText(file);
-    });
-  }
-
-  async function handleFile(file) {
-    if (!file) return;
-    const name = file.name;
-    const ext = name.split('.').pop().toLowerCase();
-    els.fileNameLabel.textContent = `Extracting ${name}...`;
-    els.fileNameLabel.style.color = 'var(--yellow)';
-
-    try {
-      let text = '';
-      if (ext === 'pdf') {
-        text = await extractTextFromPDF(file);
-      } else if (ext === 'docx') {
-        text = await extractTextFromDOCX(file);
-      } else {
-        text = await readAsPlainText(file);
-      }
-
-      if (!text || !text.trim()) {
-        throw new Error('No text found in file. Scanned images may need OCR.');
-      }
-
-      els.resumeInput.value = text.slice(0, 35000);
-      els.fileNameLabel.textContent = `✓ ${name} loaded`;
-      els.fileNameLabel.style.color = 'var(--green)';
-      updateWordCounts();
-    } catch (err) {
-      els.fileNameLabel.textContent = `Error: ${err.message}`;
-      els.fileNameLabel.style.color = 'var(--red)';
-    }
-  }
-
-  els.uploadBtn.addEventListener('click', () => els.fileInput.click());
-  els.fileInput.addEventListener('change', e => {
-    if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
-  });
-
-  /* Drag & Drop */
-  const dropZone = els.resumeDropZone;
-  ['dragenter', 'dragover'].forEach(name => {
-    dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  });
-  ['dragleave', 'drop'].forEach(name => {
-    dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.remove('drag-over'); });
-  });
-  dropZone.addEventListener('drop', e => {
-    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
-  });
-
-  /* ──────────────────────────────────────────────
-     MULTI-AI PROVIDER & MODEL REGISTRY
-  ────────────────────────────────────────────── */
-  const PROVIDER_MODELS = {
-    demo: [
-      { id: 'demo-smart', name: '✨ Smart Offline Demo (Instant, No API Key)' }
-    ],
-    gemini: [
-      { id: 'gemini-2.5-flash', name: 'gemini-2.5-flash (Fast & Recommended)' },
-      { id: 'gemini-2.0-flash', name: 'gemini-2.0-flash' },
-      { id: 'gemini-1.5-flash', name: 'gemini-1.5-flash' },
-      { id: 'gemini-2.5-pro', name: 'gemini-2.5-pro (Deep reasoning)' }
-    ],
-    openai: [
-      { id: 'gpt-4o', name: 'gpt-4o (Flagship multimodal)' },
-      { id: 'gpt-4o-mini', name: 'gpt-4o-mini (Fast & affordable)' },
-      { id: 'o3-mini', name: 'o3-mini (High reasoning)' },
-      { id: 'gpt-3.5-turbo', name: 'gpt-3.5-turbo' }
-    ],
-    anthropic: [
-      { id: 'claude-3-5-sonnet-20241022', name: 'claude-3-5-sonnet (High quality)' },
-      { id: 'claude-3-5-haiku-20241022', name: 'claude-3-5-haiku (Ultra fast)' },
-      { id: 'claude-3-opus-20240229', name: 'claude-3-opus' }
-    ],
-    deepseek: [
-      { id: 'deepseek-chat', name: 'deepseek-chat (DeepSeek-V3)' },
-      { id: 'deepseek-reasoner', name: 'deepseek-reasoner (DeepSeek-R1)' }
-    ],
-    groq: [
-      { id: 'llama-3.3-70b-versatile', name: 'llama-3.3-70b-versatile (Blazing speed)' },
-      { id: 'llama-3.1-8b-instant', name: 'llama-3.1-8b-instant' },
-      { id: 'mixtral-8x7b-32768', name: 'mixtral-8x7b-32768' }
-    ],
-    openrouter: [
-      { id: 'meta-llama/llama-3.3-70b-instruct', name: 'meta-llama/llama-3.3-70b-instruct' },
-      { id: 'anthropic/claude-3.5-sonnet', name: 'anthropic/claude-3.5-sonnet' },
-      { id: 'deepseek/deepseek-r1', name: 'deepseek/deepseek-r1' }
-    ]
-  };
-
-  const providerSelect = $('aiProviderSelect');
-  const modelSelect = $('aiModelSelect');
-  const apiKeyInput = $('apiKeyInput');
-  const apiKeyRow = $('apiKeyRow');
-  const apiKeyLabel = $('apiKeyLabel');
-  const activeAiLabel = $('activeAiLabel');
-  const engineLabel = $('engineLabel');
-
-  function populateModels(provider) {
-    modelSelect.innerHTML = '';
-    const models = PROVIDER_MODELS[provider] || [];
-    models.forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id;
-      opt.textContent = m.name;
-      modelSelect.appendChild(opt);
-    });
-    const savedModel = localStorage.getItem(`ai_model_${provider}`);
-    if (savedModel) modelSelect.value = savedModel;
-  }
-
-  function updateSettingsUI() {
-    const provider = providerSelect.value;
-    populateModels(provider);
-
-    if (provider === 'demo') {
-      apiKeyRow.style.display = 'none';
-    } else {
-      apiKeyRow.style.display = 'block';
-      apiKeyLabel.textContent = `${provider.toUpperCase()} API Key`;
-      apiKeyInput.value = localStorage.getItem(`api_key_${provider}`) || '';
-      apiKeyInput.placeholder = provider === 'gemini' ? 'AIzaSy...' : provider === 'openai' ? 'sk-...' : provider === 'anthropic' ? 'sk-ant-...' : 'Enter your API key...';
-    }
-  }
-
-  providerSelect.addEventListener('change', updateSettingsUI);
-
-  window.toggleKeyVisibility = function() {
-    apiKeyInput.type = apiKeyInput.type === 'password' ? 'text' : 'password';
-  };
-
-  window.saveAISettings = function() {
-    const provider = providerSelect.value;
-    localStorage.setItem('ai_provider', provider);
-    localStorage.setItem(`ai_model_${provider}`, modelSelect.value);
-    if (provider !== 'demo') {
-      localStorage.setItem(`api_key_${provider}`, apiKeyInput.value.trim());
-    }
-    updateActiveBadges();
-    closeModal('apiModal');
-    alert(`AI settings saved: ${provider.toUpperCase()}`);
-  };
-
-  function updateActiveBadges() {
-    const provider = localStorage.getItem('ai_provider') || 'demo';
-    const model = localStorage.getItem(`ai_model_${provider}`) || (PROVIDER_MODELS[provider]?.[0]?.id || '');
-    let label = '✨ Free Demo';
-    if (provider === 'gemini') label = `Gemini (${model.replace('gemini-','')})`;
-    else if (provider === 'openai') label = `OpenAI (${model})`;
-    else if (provider === 'anthropic') label = `Claude (${model.replace('claude-3-5-','')})`;
-    else if (provider === 'deepseek') label = `DeepSeek (${model.replace('deepseek-','')})`;
-    else if (provider === 'groq') label = `Groq (${model.replace('-versatile','')})`;
-    else if (provider === 'openrouter') label = `OpenRouter`;
-
-    if (activeAiLabel) activeAiLabel.textContent = label;
-    if (engineLabel) engineLabel.textContent = provider.toUpperCase();
-    const rgen = $('rgenEngineLabel');
-    if (rgen) rgen.textContent = provider.toUpperCase();
-  }
-
-  /* Load stored provider or default to demo */
-  const currentProvider = localStorage.getItem('ai_provider') || 'demo';
-  providerSelect.value = currentProvider;
-  updateSettingsUI();
-  updateActiveBadges();
-
-  /* ──────────────────────────────────────────────
-     UNIFIED AI SERVICE (Streaming & JSON)
-  ────────────────────────────────────────────── */
-  const UnifiedAIService = {
-    getCredentials() {
-      const provider = localStorage.getItem('ai_provider') || 'demo';
-      const model = localStorage.getItem(`ai_model_${provider}`) || PROVIDER_MODELS[provider]?.[0]?.id;
-      const apiKey = localStorage.getItem(`api_key_${provider}`) || '';
-      return { provider, model, apiKey };
-    },
-
-    async callStream(prompt, onChunk, onDone) {
-      const { provider, model, apiKey } = this.getCredentials();
-
-      if (provider === 'demo') {
-        return this.simulateDemoStream(prompt, onChunk, onDone);
-      }
-
-      if (!apiKey) {
-        openSettingsModal('ai');
-        throw new Error(`API key required for ${provider.toUpperCase()}. Please enter your key in AI Settings or switch to Free Demo Mode.`);
-      }
-
-      if (provider === 'gemini') {
-        return this.callGeminiStream(prompt, model, apiKey, onChunk, onDone);
-      } else if (provider === 'anthropic') {
-        return this.callAnthropicStream(prompt, model, apiKey, onChunk, onDone);
-      } else {
-        // OpenAI, DeepSeek, Groq, OpenRouter share the OpenAI Chat Completions SSE format
-        return this.callOpenAICompatibleStream(provider, prompt, model, apiKey, onChunk, onDone);
-      }
-    },
-
-    async callJSON(prompt) {
-      const { provider, model, apiKey } = this.getCredentials();
-
-      if (provider === 'demo') {
-        return this.generateDemoJSON(prompt);
-      }
-
-      if (!apiKey) {
-        openSettingsModal('ai');
-        throw new Error(`API key required for ${provider.toUpperCase()}. Please enter your key in AI Settings or switch to Free Demo Mode.`);
-      }
-
-      if (provider === 'gemini') {
-        return this.callGeminiJSON(prompt, model, apiKey);
-      } else if (provider === 'anthropic') {
-        return this.callAnthropicJSON(prompt, model, apiKey);
-      } else {
-        return this.callOpenAICompatibleJSON(provider, prompt, model, apiKey);
-      }
-    },
-
-    /* Google Gemini Streaming */
-    async callGeminiStream(prompt, model, apiKey, onChunk, onDone) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-      if (!res.ok) {
-        const err = await res.text().catch(() => '');
-        throw new Error(`Gemini API error ${res.status}: ${err}`);
-      }
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (text) onChunk(text);
-            } catch {}
-          }
-        }
-      }
-      onDone();
-    },
-
-    async callGeminiJSON(prompt, model, apiKey) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-      if (!res.ok) throw new Error(`Gemini error ${res.status}`);
-      const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-      return JSON.parse(text.replace(/```json|```/g, '').trim());
-    },
-
-    /* Anthropic Claude Streaming */
-    async callAnthropicStream(prompt, model, apiKey, onChunk, onDone) {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: model || 'claude-3-5-sonnet-20241022',
-          max_tokens: 2048,
-          stream: true,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-      if (!res.ok) throw new Error(`Claude error ${res.status}`);
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              if (data.type === 'content_block_delta' && data.delta?.text) {
-                onChunk(data.delta.text);
-              }
-            } catch {}
-          }
-        }
-      }
-      onDone();
-    },
-
-    async callAnthropicJSON(prompt, model, apiKey) {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: model || 'claude-3-5-sonnet-20241022',
-          max_tokens: 2048,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-      if (!res.ok) throw new Error(`Claude error ${res.status}`);
-      const data = await res.json();
-      const text = (data.content || []).map(c => c.text).join('');
-      return JSON.parse(text.replace(/```json|```/g, '').trim());
-    },
-
-    /* OpenAI-Compatible (OpenAI, DeepSeek, Groq, OpenRouter) */
-    getEndpoint(provider) {
-      if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
-      if (provider === 'deepseek') return 'https://api.deepseek.com/chat/completions';
-      if (provider === 'groq') return 'https://api.groq.com/openai/v1/chat/completions';
-      if (provider === 'openrouter') return 'https://openrouter.ai/api/v1/chat/completions';
-      return 'https://api.openai.com/v1/chat/completions';
-    },
-
-    async callOpenAICompatibleStream(provider, prompt, model, apiKey, onChunk, onDone) {
-      const endpoint = this.getEndpoint(provider);
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      };
-      if (provider === 'openrouter') {
-        headers['HTTP-Referer'] = window.location.origin || 'http://localhost';
-        headers['X-Title'] = 'Resume Scanner Pro';
-      }
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          model: model,
-          stream: true,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-
-      if (!res.ok) {
-        const err = await res.text().catch(() => '');
-        throw new Error(`${provider.toUpperCase()} API error ${res.status}: ${err}`);
-      }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const chunkStr = line.slice(6).trim();
-            if (chunkStr === '[DONE]') continue;
-            try {
-              const data = JSON.parse(chunkStr);
-              const content = data.choices?.[0]?.delta?.content;
-              if (content) onChunk(content);
-            } catch {}
-          }
-        }
-      }
-      onDone();
-    },
-
-    async callOpenAICompatibleJSON(provider, prompt, model, apiKey) {
-      const endpoint = this.getEndpoint(provider);
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: model,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-      if (!res.ok) throw new Error(`${provider.toUpperCase()} error ${res.status}`);
-      const data = await res.json();
-      const text = data.choices?.[0]?.message?.content || '{}';
-      return JSON.parse(text.replace(/```json|```/g, '').trim());
-    },
-
-    /* Smart Built-In Offline Demo Simulator */
-    async simulateDemoStream(prompt, onChunk, onDone) {
-      let output = '';
-      const lower = prompt.toLowerCase();
-
-      if (lower.includes('cover letter')) {
-        output = `Dear Hiring Team,
-
-I am writing to express my enthusiastic interest in this role. With my background in delivering scalable solutions, driving measurable business impact, and collaborating closely with cross-functional teams, I am confident in my ability to immediately add value to your organization.
-
-In my recent projects, I have specialized in building robust architectures, streamlining operational workflows, and translating complex challenges into intuitive, high-performance outcomes. What particularly excites me about your team is your dedication to technological excellence and user-centric problem solving.
-
-I welcome the opportunity to discuss how my skill set, technical domain expertise, and passion for continuous improvement align with your strategic objectives. Thank you for your time and consideration.
-
-Sincerely,
-[Your Name]`;
-      } else if (lower.includes('master prompt') || lower.includes('prompt engineer')) {
-        output = `# Master AI System Prompt: Expert Execution
-
-## 🎯 Objective
-Execute the requested task with rigorous attention to detail, maintaining high standard industry benchmarks and zero fluff.
-
-## 📋 Execution Guidelines
-1. Deconstruct the user input into primary requirements and underlying edge cases.
-2. Structure the deliverable using clean markdown, bold conceptual tags, and verified steps.
-3. Ensure all technical assertions are benchmarked against current best practices.
-
-## ⛔ Constraints & Boundaries
-- Avoid preamble, filler commentary, or speculative generalizations.
-- Deliver production-ready solutions directly actionable by the stakeholder.`;
-      } else if (lower.includes('rewrite') || lower.includes('bullet')) {
-        output = `• Spearheaded high-performance infrastructure optimizations, reducing system latency by 38% while handling 10M+ daily events.
-• Directed agile cross-functional delivery team of 6 engineers, completing roadmap initiatives 2 weeks ahead of target schedule.
-• Automated mission-critical data processing workflows, reducing manual engineering overhead by 15 hours weekly.`;
-      } else if (lower.includes('debug') || lower.includes('fixed code')) {
-        output = `// Fixed Implementation:
-function calculateTotal(items) {
-  if (!Array.isArray(items)) return 0;
-  return items.reduce((acc, item) => acc + (Number(item.price) || 0), 0);
-}
-
-// Explanation:
-// 1. Added defensive validation for array inputs.
-// 2. Used array.reduce to avoid off-by-one indexing errors.
-// 3. Sanitized item pricing against NaN and undefined values.`;
-      } else {
-        output = `PROFESSIONAL SUMMARY
-Dynamic, results-driven specialist with verified expertise leading high-impact initiatives, driving cross-functional collaboration, and optimizing mission-critical operations.
-
-EXPERIENCE HIGHLIGHTS
-• Accelerated system throughput by 42% through targeted architectural refactoring.
-• Established automated quality assurance and CI/CD pipelines, increasing deployment reliability to 99.9%.
-• Mentored cross-functional team members, fostering a culture of continuous learning and technical excellence.
-
-EDUCATION & CREDENTIALS
-• Bachelor of Science in Relevant Discipline | Top Tier University
-• Professional Industry Certifications & Continuous Technical Training`;
-      }
-
-      // Stream words with natural cadence
-      const words = output.split(' ');
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < words.length) {
-          onChunk((i === 0 ? '' : ' ') + words[i]);
-          i++;
-        } else {
-          clearInterval(interval);
-          onDone();
-        }
-      }, 25);
-    },
-
-    generateDemoJSON(prompt) {
-      const lower = prompt.toLowerCase();
-      if (lower.includes('interview')) {
-        return [
-          { q: "Tell me about a challenging technical or operational bottleneck you identified and how you resolved it.", cat: "Technical Execution", tip: "Use the STAR method (Situation, Task, Action, Result). Highlight your diagnostic approach and quantify the final metric." },
-          { q: "How do you prioritize competing deadlines when stakeholders have conflicting urgency?", cat: "Prioritization & Impact", tip: "Focus on business value, impact vs. effort matrix, and proactive transparent communication." },
-          { q: "Describe a time you received constructive feedback on a deliverable. How did you incorporate it?", cat: "Growth & Collaboration", tip: "Demonstrate emotional maturity, willingness to iterate, and measurable improvement." }
-        ];
-      }
-      if (lower.includes('compare') || lower.includes('job a')) {
-        return [
-          { rank: 1, name: "Job A", score: 88, reason: "Strong alignment with your core technical skills and leadership timeline." },
-          { rank: 2, name: "Job B", score: 72, reason: "Good overlap in tooling, though requires additional specialized domain background." },
-          { rank: 3, name: "Job C", score: 58, reason: "Broader role with heavier emphasis on secondary qualifications." }
-        ];
-      }
-      return { status: "success", message: "Demo mode evaluated successfully." };
-    }
-  };
-
-  /* Unified Dispatcher aliases for all pages */
-  window.callClaude = (prompt, onChunk, onDone) => UnifiedAIService.callStream(prompt, onChunk, onDone);
-  window.callClaudeJSON = prompt => UnifiedAIService.callJSON(prompt);
-
-  /* Connection Test Button in Settings */
-  window.testAIConnection = async function() {
-    const resultEl = $('testConnResult');
-    resultEl.textContent = 'Testing connection...';
-    resultEl.style.color = 'var(--yellow)';
-
-    try {
-      let response = '';
-      await UnifiedAIService.callStream('Reply with "Connection Successful" in 2 words.', chunk => {
-        response += chunk;
-      }, () => {});
-      resultEl.textContent = `✓ ${response.trim() || 'Connection Successful!'}`;
-      resultEl.style.color = 'var(--green)';
-    } catch (e) {
-      resultEl.textContent = `✕ ${e.message}`;
-      resultEl.style.color = 'var(--red)';
-    }
-  };
-
-  
-    
-
-  
-
-  /* ──────────────────────────────────────────────
-     ATS HEURISTIC SCANNER (Instant Local Analysis)
-  ────────────────────────────────────────────── */
-  function extractKeywords(text) {
-    const commonWords = new Set(['and','the','with','for','you','that','this','from','have','will','your','our','their','are','was','were','been','about','into','over','more','other','some','such','only','also','than','then','them','these','those','what','when','where','which','who','whom','whose','why','how','all','any','both','each','few','most','much','such','than','too','very']);
-    const tokens = text.toLowerCase().replace(/[^a-z0-9+#.-]/g, ' ').split(/\s+/);
-    const counts = {};
-    for (const t of tokens) {
-      if (t.length > 2 && !commonWords.has(t) && !/^\d+$/.test(t)) {
-        counts[t] = (counts[t] || 0) + 1;
-      }
-    }
-    return Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 18)
-      .map(([word]) => word);
-  }
-
-  function keywordPresent(kw, text) {
-    const pattern = new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
-    return pattern.test(text);
-  }
-
-  function detectSections(text) {
-    const lower = text.toLowerCase();
-    return {
-      hasExp: /\b(experience|employment|work history|career)\b/.test(lower),
-      hasEdu: /\b(education|degree|university|college|bachelor|master|phd)\b/.test(lower),
-      hasSkills: /\b(skills|technologies|tools|competencies|stack)\b/.test(lower),
-      hasContact: /[\w.-]+@[\w.-]+\.\w+/.test(text)
-    };
-  }
-
-  function analyzeResume(resumeText, jobText) {
-    const keywords = extractKeywords(jobText);
-    const kwResults = keywords.map(term => ({ term, present: keywordPresent(term, resumeText) }));
-    const hits = kwResults.filter(k => k.present).length;
-    const total = kwResults.length || 1;
-    const kwRatio = hits / total;
-
-    const sections = detectSections(resumeText);
-    const secScore = [sections.hasExp, sections.hasEdu, sections.hasSkills, sections.hasContact].filter(Boolean).length / 4;
-
-    const matchScore = Math.min(99, Math.max(20, Math.round((kwRatio * 0.65 + secScore * 0.35) * 100)));
-
-    let verdict = 'Strong match — apply with confidence';
-    let verdictClass = 'good';
-    if (matchScore < 45) {
-      verdict = 'Weak match — significant gaps detected';
-      verdictClass = 'low';
-    } else if (matchScore < 70) {
-      verdict = 'Reasonable fit — tailoring recommended';
-      verdictClass = 'mid';
-    }
-
-    const strengths = [];
-    kwResults.filter(k => k.present).slice(0, 5).forEach(k => {
-      strengths.push(`Resume validates key requirement: "${k.term}"`);
-    });
-    if (sections.hasExp) strengths.push('Clear work experience timeline detected.');
-    if (sections.hasContact) strengths.push('Professional contact information detected.');
-
-    const weaknesses = [];
-    kwResults.filter(k => !k.present).slice(0, 5).forEach(k => {
-      weaknesses.push(`Missing keyword found in job posting: "${k.term}"`);
-    });
-    if (!sections.hasSkills) weaknesses.push('No dedicated Skills section header detected.');
-
-    return { matchScore, verdict, verdictClass, strengths, weaknesses, kwResults };
-  }
-
-  /* ──────────────────────────────────────────────
-     SCAN RENDERING
-  ────────────────────────────────────────────── */
-  function renderIdle() {
-    els.resultsPanel.innerHTML = `
-      <div class="rs-idle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-        <div class="t1">Scan results will appear here</div>
-        <div class="t2">Paste your resume and target role on the left, then click <b>Run ATS Scan</b>.</div>
-      </div>`;
-  }
-  renderIdle();
-
-  function renderScanning() {
-    els.resultsPanel.innerHTML = `
-      <div class="rs-scanning">
-        <div class="rs-scan-doc">
-          <div class="ln w60"></div><div class="ln w80"></div><div class="ln w40"></div>
-          <div class="ln w80"></div><div class="ln w60"></div>
-          <div class="rs-scan-beam"></div>
-        </div>
-        <div class="rs-scan-label">Analyzing Resume Syntax &amp; Keywords...</div>
-        <div class="rs-scan-status">Extracting technical terms against job posting</div>
-      </div>`;
-  }
-
-  function renderResult(res) {
-    const circumference = 2 * Math.PI * 38;
-    const offset = circumference - (res.matchScore / 100) * circumference;
-    const strokeColor = res.verdictClass === 'good' ? 'var(--green)' : res.verdictClass === 'mid' ? 'var(--yellow)' : 'var(--red)';
-
-    const kwPills = res.kwResults.map(k => `
-      <span class="rs-kw ${k.present ? 'hit' : 'miss'}">${k.present ? '✓' : '✕'} ${k.term}</span>
-    `).join('');
-
-    const strengthsHtml = res.strengths.map(s => `
-      <div class="rs-list-item strength">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
-        <span>${s}</span>
-      </div>
-    `).join('');
-
-    const gapsHtml = res.weaknesses.map(w => `
-      <div class="rs-list-item gap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
-        <span>${w}</span>
-      </div>
-    `).join('');
-
-    els.resultsPanel.innerHTML = `
-      <div class="rs-result">
-        <div class="rs-verdict-row">
-          <div class="rs-gauge">
-            <svg viewBox="0 0 92 92">
-              <circle class="track" cx="46" cy="46" r="38"/>
-              <circle class="fillc" cx="46" cy="46" r="38" stroke="${strokeColor}" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
-            </svg>
-            <div class="pct" style="color:${strokeColor}">${res.matchScore}%</div>
-          </div>
-          <div class="rs-verdict-text">
-            <div class="label">ATS Eligibility Match</div>
-            <div class="verdict ${res.verdictClass}">${res.verdict}</div>
-          </div>
-        </div>
-
-        <div class="rs-section-title strength">Match Highlights</div>
-        <div class="rs-list">${strengthsHtml}</div>
-
-        <div class="rs-section-title gap">Keyword Gaps &amp; Opportunities</div>
-        <div class="rs-list">${gapsHtml}</div>
-
-        <div class="rs-section-title">Keyword Density Analysis</div>
-        <div class="rs-keywords">${kwPills}</div>
-
-        <!-- In-Content Result Ad / Action Bar -->
-        <div style="margin-top:24px; padding:14px; background:rgba(255,138,61,0.08); border:1px solid rgba(255,138,61,0.3); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <div>
-            <div style="font-size:13px; font-weight:600; color:var(--amber);">Need a tailored Cover Letter?</div>
-            <div style="font-size:12px; color:var(--text-dim);">Generate one in 5 seconds using your selected AI model.</div>
-          </div>
-          <button class="rs-ghost-btn primary" onclick="triggerFeatureTab('cover-letter')">Write Cover Letter →</button>
-        </div>
-
-        <div class="rs-footer-actions">
-          <button class="rs-ghost-btn" onclick="window.print()">Print / Export PDF</button>
-          <button class="rs-ghost-btn" onclick="copyScanSummary()">Copy Summary</button>
-        </div>
-      </div>`;
-  }
-
-  window.triggerFeatureTab = function(tabName) {
-    const tabBtn = document.querySelector(`.feat-tab[data-tab="${tabName}"]`);
-    if (tabBtn) tabBtn.click();
-    $('btnCoverLetter')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  window.copyScanSummary = function() {
-    const text = els.resultsPanel.innerText;
-    navigator.clipboard.writeText(text).then(() => alert('Scan results copied to clipboard!'));
-  };
-
-  els.scanBtn.addEventListener('click', () => {
-    const resume = els.resumeInput.value.trim();
-    const job = els.jobInput.value.trim();
-    if (!resume || !job) {
-      alert('Please provide both a resume and a job description before scanning.');
-      return;
-    }
-
-    els.scanBtn.disabled = true;
-    els.scanBtnText.textContent = 'Scanning...';
-    els.statusText.textContent = 'SCANNING';
-    els.statusText.style.color = 'var(--amber)';
-    renderScanning();
-
-    setTimeout(() => {
-      try {
-        const result = analyzeResume(resume, job);
-        renderResult(result);
-      } catch (err) {
-        els.resultsPanel.innerHTML = `<div class="rs-error"><div class="t1">Scan Error</div><div class="t2">${err.message}</div></div>`;
-      } finally {
-        els.scanBtn.disabled = false;
-        els.scanBtnText.textContent = 'Run ATS Scan';
-        els.statusText.textContent = 'READY';
-        els.statusText.style.color = 'var(--green)';
-      }
-    }, 1200);
-  });
 
   /* ──────────────────────────────────────────────
      FEATURE TABS & GENERATORS
@@ -2281,7 +2119,6 @@ EDUCATION & CREDENTIALS
     });
   });
 
-  /* Tone pills */
   let selectedTone = 'professional';
   document.querySelectorAll('.tone-pill').forEach(pill => {
     pill.addEventListener('click', () => {
@@ -2310,16 +2147,15 @@ EDUCATION & CREDENTIALS
     box.classList.add('streaming');
     $('btnCoverLetter').disabled = true;
 
-    const prompt = `Write a polished, professional cover letter tailored for this role.
+    const prompt = `Write a professional, high-conversion cover letter tailored for this role.
 Tone: ${selectedTone}
+Preserve strict factual honesty based on the candidate resume.
 
 RESUME:
 ${resume.slice(0, 3000)}
 
 JOB DESCRIPTION:
-${jd.slice(0, 2000)}
-
-Output the complete cover letter directly.`;
+${jd.slice(0, 2000)}`;
 
     try {
       await callClaude(prompt, chunk => {
@@ -2327,15 +2163,18 @@ Output the complete cover letter directly.`;
         box.scrollTop = box.scrollHeight;
       }, () => {
         box.classList.remove('streaming');
-      });
+      }, err => {
+        box.classList.remove('streaming');
+        box.textContent = `Notice: ${err.message}`;
+      }, 'TASK_COVER_LETTER');
     } catch (e) {
       box.classList.remove('streaming');
-      box.textContent = 'Error: ' + e.message;
+      box.textContent = `Notice: ${e.message}`;
     }
     $('btnCoverLetter').disabled = false;
   });
 
-  /* 2. ATS Checker */
+  /* 2. ATS Hygiene Checker (100% Free & Local) */
   $('btnATS').addEventListener('click', () => {
     const resume = els.resumeInput.value.trim();
     if (!resume) { alert('Paste your resume first.'); return; }
@@ -2357,7 +2196,7 @@ Output the complete cover letter directly.`;
 
     content.innerHTML = `
       <div class="ats-score-row">
-        <div class="ats-score-label">Readability Score:</div>
+        <div class="ats-score-label">Format Readability Score:</div>
         <div class="ats-score-val" style="color:${score >= 80 ? 'var(--green)' : 'var(--yellow)'};">${score}%</div>
         <div class="ats-bar-wrap"><div class="ats-bar-fill" style="width:${score}%; background:${score >= 80 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
       </div>
@@ -2384,19 +2223,19 @@ Output the complete cover letter directly.`;
     try {
       const data = await callClaudeJSON(`Analyze this job description and output a JSON array of 4 predicted interview questions.
 Format: [{"q": "Question text", "cat": "Category", "tip": "How to answer using STAR"}]
-JOB: ${jd.slice(0, 2000)}`);
+JOB: ${jd.slice(0, 2000)}`, 'TASK_INTERVIEW_PREP');
 
       list.innerHTML = data.map((item, idx) => `
         <div class="iq-item ${idx === 0 ? 'open' : ''}">
           <div class="iq-item-head" onclick="this.parentElement.classList.toggle('open')">
-            <span><b>${item.cat || 'Question'}:</b> ${item.q}</span>
+            <span><b>${sanitizeHtml(item.cat || 'Question')}:</b> ${sanitizeHtml(item.q)}</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </div>
-          <div class="iq-item-tip">💡 <b>Answer Strategy:</b> ${item.tip}</div>
+          <div class="iq-item-tip">💡 <b>STAR Strategy:</b> ${sanitizeHtml(item.tip)}</div>
         </div>
       `).join('');
     } catch (e) {
-      list.innerHTML = `<div style="color:var(--red);">Error: ${e.message}</div>`;
+      list.innerHTML = `<div style="color:var(--red);">Notice: ${sanitizeHtml(e.message)}</div>`;
     }
     $('btnInterviewQs').disabled = false;
   });
@@ -2413,63 +2252,75 @@ JOB: ${jd.slice(0, 2000)}`);
 
     try {
       const lines = input.split('\n').map(l => l.replace(/^[•\-*\s]+/, '').trim()).filter(Boolean);
-      let html = '';
-      for (const line of lines.slice(0, 5)) {
-        html += `
-          <div class="bullet-pair">
-            <div>
-              <div class="bullet-col-label before">Original</div>
-              <div class="bullet-text">${line}</div>
-            </div>
-            <div>
-              <div class="bullet-col-label after">AI Enhanced</div>
-              <div class="bullet-text after">Optimized and streamlined ${line.toLowerCase()}, achieving a 25% improvement in core efficiency.</div>
-            </div>
-          </div>`;
-      }
-      pairs.innerHTML = html;
+      let outputText = '';
+      await callClaude(`You are a resume bullet point optimizer. Rewrite these bullet points using strong action verbs and quantified impact. Never invent fake metrics or hallucinate non-existent tools. Output line-by-line formatted as "Original -> Improved":\n${lines.slice(0, 5).join('\n')}`, chunk => {
+        outputText += chunk;
+      }, () => {
+        const rewrittenLines = outputText.split('\n').filter(l => l.includes('->') || l.length > 10);
+        if (rewrittenLines.length > 0) {
+          pairs.innerHTML = rewrittenLines.map(row => {
+            const parts = row.split('->');
+            const orig = parts[0]?.trim() || '';
+            const imp = parts[1]?.trim() || row;
+            return `
+              <div class="bullet-pair">
+                <div>
+                  <div class="bullet-col-label before">Original</div>
+                  <div class="bullet-text">${sanitizeHtml(orig)}</div>
+                </div>
+                <div>
+                  <div class="bullet-col-label after">AI Enhanced</div>
+                  <div class="bullet-text after">${sanitizeHtml(imp)}</div>
+                </div>
+              </div>`;
+          }).join('');
+        } else {
+          pairs.innerHTML = `<div class="feat-output-box">${sanitizeHtml(outputText)}</div>`;
+        }
+      }, err => {
+        pairs.innerHTML = `<div style="color:var(--red);">${sanitizeHtml(err.message)}</div>`;
+      }, 'TASK_RESUME_BULLET');
     } catch (e) {
-      pairs.innerHTML = `<div style="color:var(--red);">${e.message}</div>`;
+      pairs.innerHTML = `<div style="color:var(--red);">${sanitizeHtml(e.message)}</div>`;
     }
     $('btnBullets').disabled = false;
   });
 
-  /* 5. Multi-Job Compare */
-  $('btnCompare').addEventListener('click', async () => {
+  /* 5. Multi-Job Compare (100% Free Local ATS Matcher) */
+  $('btnCompare').addEventListener('click', () => {
     const resume = els.resumeInput.value.trim();
     const jdA = $('jdA').value.trim();
     const jdB = $('jdB').value.trim();
+    const jdC = $('jdC').value.trim();
     if (!resume || !jdA || !jdB) { alert('Provide your resume and at least Job A and Job B.'); return; }
 
     const out = $('outCompare');
     const grid = $('compareGrid');
     out.classList.add('visible');
-    grid.innerHTML = '<div class="feat-loading"><div class="spin"></div>Ranking fit across job descriptions...</div>';
-    $('btnCompare').disabled = true;
 
-    try {
-      const data = await callClaudeJSON(`Compare this resume against Job A and Job B.
-Return JSON array: [{"rank": 1, "name": "Job A", "score": 85, "reason": "Explanation"}]
-RESUME: ${resume.slice(0, 1500)}
-JOB A: ${jdA.slice(0, 1000)}
-JOB B: ${jdB.slice(0, 1000)}`);
+    const jobs = [
+      { name: 'Job A', text: jdA },
+      { name: 'Job B', text: jdB }
+    ];
+    if (jdC) jobs.push({ name: 'Job C', text: jdC });
 
-      grid.innerHTML = data.map(item => `
-        <div class="compare-card ${item.rank === 1 ? 'best' : ''}">
-          <div class="compare-rank ${item.rank === 1 ? 'best-rank' : ''}">Rank #${item.rank}</div>
-          <div class="compare-score" style="color:${item.rank === 1 ? 'var(--green)' : 'var(--text)'};">${item.score}%</div>
-          <div class="compare-jd-name">${item.name}</div>
-          <div class="compare-reason">${item.reason}</div>
-        </div>
-      `).join('');
-    } catch (e) {
-      grid.innerHTML = `<div style="color:var(--red);">${e.message}</div>`;
-    }
-    $('btnCompare').disabled = false;
+    const results = jobs.map(j => {
+      const scan = analyzeResume(resume, j.text);
+      return { name: j.name, score: scan.matchScore, verdict: scan.verdict };
+    }).sort((a, b) => b.score - a.score);
+
+    grid.innerHTML = results.map((item, idx) => `
+      <div class="compare-card ${idx === 0 ? 'best' : ''}">
+        <div class="compare-rank ${idx === 0 ? 'best-rank' : ''}">Rank #${idx + 1} (${idx === 0 ? 'Highest Fit' : 'Alternative'})</div>
+        <div class="compare-score" style="color:${idx === 0 ? 'var(--green)' : 'var(--text)'};">${item.score}%</div>
+        <div class="compare-jd-name">${sanitizeHtml(item.name)}</div>
+        <div class="compare-reason">${sanitizeHtml(item.verdict)}</div>
+      </div>
+    `).join('');
   });
 
   /* ──────────────────────────────────────────────
-     AUTO RESUME GENERATOR WIZARD
+     AUTO RESUME BUILDER (100% Free & Local)
   ────────────────────────────────────────────── */
   window.toggleRgenStep = id => {
     const step = $(id);
@@ -2491,58 +2342,67 @@ JOB B: ${jdB.slice(0, 1000)}`);
     });
   });
 
-  $('rgenGenerateBtn').addEventListener('click', async () => {
+  $('rgenGenerateBtn').addEventListener('click', () => {
     const name = $('rgenName').value.trim() || 'Alex Johnson';
     const title = $('rgenTitle').value.trim() || 'Software Engineer';
-    const exp = $('rgenExp').value.trim();
-    const skills = $('rgenSkills').value.trim();
+    const contact = $('rgenContact').value.trim() || 'alex.j@example.com · +1 (555) 012-3456';
+    const location = $('rgenLocation').value.trim() || 'San Francisco, CA';
+    const links = $('rgenLinks').value.trim() || 'linkedin.com/in/alexj';
+    const years = $('rgenYears').value.trim() || '5+ years';
+    const strengths = $('rgenStrengths').value.trim() || 'Full-stack development, cloud architecture, agile execution';
+    const exp = $('rgenExp').value.trim() || 'Senior Engineer · Acme Inc · 2021–Present\nBuilt event streaming pipeline processing 10M events/day.\n\nSoftware Engineer · Beta Corp · 2019–2021\nDelivered billing portal reducing ticket volume by 25%.';
+    const achievements = $('rgenAchievements').value.trim() || '• Reduced infrastructure costs by 22%\n• Mentored junior engineers';
+    const edu = $('rgenEdu').value.trim() || 'B.S. in Computer Science · State University · 2019';
+    const skills = $('rgenSkills').value.trim() || 'TypeScript, React, Python, PostgreSQL, Docker, AWS, Git';
 
     const idle = $('rgenIdle');
     const body = $('rgenResumeBody');
     idle.style.display = 'none';
     body.style.display = 'block';
-    body.textContent = '';
-    body.classList.add('streaming');
-    $('rgenGenerateBtn').disabled = true;
 
-    const prompt = `Create a complete, ATS-optimized ${rgenFormat.toUpperCase()} resume for ${name}, target role: ${title}.
-Experience highlights: ${exp || '5 years experience building scalable systems'}
-Skills: ${skills || 'Full stack development, cloud, agile'}
-Format cleanly with ALL-CAPS section headers.`;
+    const builtResume = `${name.toUpperCase()}
+${location} | ${contact} | ${links}
 
-    try {
-      await callClaude(prompt, chunk => {
-        body.textContent += chunk;
-        body.scrollTop = body.scrollHeight;
-      }, () => {
-        body.classList.remove('streaming');
-      });
-    } catch (e) {
-      body.classList.remove('streaming');
-      body.textContent = 'Error: ' + e.message;
-    }
-    $('rgenGenerateBtn').disabled = false;
+PROFESSIONAL SUMMARY
+${title} with ${years} of verifiable expertise. Core competencies include: ${strengths}. Demonstrated track record delivering scalable solutions and measurable business impact.
+
+WORK EXPERIENCE
+${exp}
+
+KEY ACHIEVEMENTS
+${achievements}
+
+EDUCATION
+${edu}
+
+TECHNICAL SKILLS & TOOLS
+${skills}
+
+FORMAT: ${rgenFormat.toUpperCase()} (ATS OPTIMIZED)`;
+
+    body.textContent = builtResume;
   });
 
   $('rgenCopyBtn').addEventListener('click', () => {
     const body = $('rgenResumeBody');
     if (body.textContent) {
-      navigator.clipboard.writeText(body.textContent).then(() => alert('Resume copied!'));
+      navigator.clipboard.writeText(body.textContent).then(() => alert('Built resume copied!'));
     }
   });
 
   $('rgenSendToScannerBtn').addEventListener('click', () => {
     const text = $('rgenResumeBody').textContent;
-    if (!text) { alert('Generate a resume first.'); return; }
+    if (!text) { alert('Build a resume first.'); return; }
     els.resumeInput.value = text;
     updateWordCounts();
     openPage('page-scanner');
+    els.scanBtn.scrollIntoView({ behavior: 'smooth' });
   });
 
   /* ──────────────────────────────────────────────
      CODE TOOLS LOGIC
   ────────────────────────────────────────────── */
-  let selectedLang = 'JavaScript';
+  let selectedLang = 'Python';
   document.querySelectorAll('.code-lang-pill').forEach(pill => {
     pill.addEventListener('click', () => {
       document.querySelectorAll('.code-lang-pill').forEach(p => p.classList.remove('active'));
@@ -2560,7 +2420,7 @@ Format cleanly with ALL-CAPS section headers.`;
     });
   });
 
-  window.copyCodeOutput = (outId, btnId) => {
+  window.copyCodeOutput = (outId) => {
     const el = $(outId);
     if (el) navigator.clipboard.writeText(el.textContent).then(() => alert('Code copied!'));
   };
@@ -2575,14 +2435,15 @@ Format cleanly with ALL-CAPS section headers.`;
     $('btnDebug').disabled = true;
 
     try {
-      await callClaude(`Debug this ${selectedLang} code and provide the fix and explanation:
-${code}`, chunk => {
+      await callClaude(`Debug this ${selectedLang} code. Identify errors and provide corrected code with concise explanations:\n${code}`, chunk => {
         out.textContent += chunk;
       }, () => {
         copyRow.style.display = 'flex';
-      });
+      }, err => {
+        out.textContent = `Notice: ${err.message}`;
+      }, 'TASK_CODE_DEBUG');
     } catch (e) {
-      out.textContent = 'Error: ' + e.message;
+      out.textContent = `Notice: ${e.message}`;
     }
     $('btnDebug').disabled = false;
   });
@@ -2597,14 +2458,15 @@ ${code}`, chunk => {
     $('btnGenerate').disabled = true;
 
     try {
-      await callClaude(`Generate a production-ready ${selectedGenType} in ${selectedLang}:
-${promptText}`, chunk => {
+      await callClaude(`Generate a production-ready ${selectedGenType} in ${selectedLang}:\n${promptText}`, chunk => {
         out.textContent += chunk;
       }, () => {
         copyRow.style.display = 'flex';
-      });
+      }, err => {
+        out.textContent = `Notice: ${err.message}`;
+      }, 'TASK_CODE_GEN');
     } catch (e) {
-      out.textContent = 'Error: ' + e.message;
+      out.textContent = `Notice: ${e.message}`;
     }
     $('btnGenerate').disabled = false;
   });
@@ -2618,7 +2480,7 @@ ${promptText}`, chunk => {
       document.querySelectorAll('.prompt-mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       promptStudioMode = btn.dataset.mode;
-      $('btnPromptActionText').textContent = promptStudioMode === 'generator' ? 'Generate Master Prompt' : 'Analyze Prompt Quality';
+      $('btnPromptActionText').textContent = promptStudioMode === 'generator' ? 'Generate Master Prompt (AI)' : 'Analyze Prompt Quality (AI)';
     });
   });
 
@@ -2633,19 +2495,24 @@ ${promptText}`, chunk => {
     $('btnExecutePromptAction').disabled = true;
 
     const metaPrompt = promptStudioMode === 'generator'
-      ? `Create a complete, expert system prompt for role: ${role}. Goal: ${raw}`
-      : `Critique and optimize this AI prompt: ${raw}`;
+      ? `Create an enterprise master system prompt for role: ${role}. Goal: ${raw}\nFormat with markdown headers (# Role, ## Goal, ## Inputs, ## Steps, ## Constraints, ## Expected Output).`
+      : `Evaluate and optimize this AI prompt across Goal, Context, Specificity, Constraints, and Output format:\n${raw}`;
 
+    let fullOutput = '';
     try {
       await callClaude(metaPrompt, chunk => {
-        box.textContent += chunk;
+        fullOutput += chunk;
+        box.innerHTML = renderSafeMarkdown(fullOutput);
         box.scrollTop = box.scrollHeight;
       }, () => {
         box.classList.remove('streaming');
-      });
+      }, err => {
+        box.classList.remove('streaming');
+        box.textContent = `Notice: ${err.message}`;
+      }, 'TASK_PROMPT_STUDIO');
     } catch (e) {
       box.classList.remove('streaming');
-      box.textContent = 'Error: ' + e.message;
+      box.textContent = `Notice: ${e.message}`;
     }
     $('btnExecutePromptAction').disabled = false;
   });
@@ -2656,6 +2523,52 @@ ${promptText}`, chunk => {
       navigator.clipboard.writeText(box.textContent).then(() => alert('Master prompt copied!'));
     }
   });
+
+  /* ──────────────────────────────────────────────
+     AI SETTINGS MODAL & BYOK HANDLER
+  ────────────────────────────────────────────── */
+  const aiModeSelect = $('aiModeSelect');
+  const customKeySection = $('customKeySection');
+  const aiProviderSelect = $('aiProviderSelect');
+  const apiKeyInput = $('apiKeyInput');
+
+  function updateSettingsModalUI() {
+    const mode = aiModeSelect.value;
+    customKeySection.style.display = mode === 'custom' ? 'block' : 'none';
+  }
+  aiModeSelect.addEventListener('change', updateSettingsModalUI);
+
+  // Load saved settings
+  aiModeSelect.value = localStorage.getItem('ai_mode') || 'gateway';
+  aiProviderSelect.value = localStorage.getItem('custom_provider') || 'gemini';
+  apiKeyInput.value = localStorage.getItem('custom_api_key') || '';
+  updateSettingsModalUI();
+
+  window.saveAISettings = function() {
+    localStorage.setItem('ai_mode', aiModeSelect.value);
+    localStorage.setItem('custom_provider', aiProviderSelect.value);
+    localStorage.setItem('custom_api_key', apiKeyInput.value.trim());
+    closeModal('apiModal');
+    alert('AI connection settings saved.');
+  };
+
+  window.testAIConnection = async function() {
+    const resEl = $('testConnResult');
+    resEl.textContent = 'Testing connection...';
+    resEl.style.color = 'var(--yellow)';
+
+    try {
+      let result = '';
+      await UnifiedAIService.callStream('Reply with "Connection Successful" in 2 words.', 'TASK_RESUME_BULLET', chunk => {
+        result += chunk;
+      }, () => {});
+      resEl.textContent = `✓ ${result.trim() || 'Connection Successful!'}`;
+      resEl.style.color = 'var(--green)';
+    } catch (err) {
+      resEl.textContent = `✕ ${err.message}`;
+      resEl.style.color = 'var(--red)';
+    }
+  };
 
 })();
 </script>

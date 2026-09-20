@@ -1,6 +1,6 @@
-# Technical Architecture & Code Documentation: Resume Scanner Pro
+# Technical Architecture & Code Documentation: AI Developer Toolkit
 
-This document provides a comprehensive technical breakdown of **Resume Scanner Pro & AI Developer Toolkit**. It details how each tool and algorithm operates, the unified Multi-AI dispatch layer, the client-side document parsers, the monetization pipeline, and the zero-backend deployment model.
+This document provides a comprehensive technical breakdown of **AI Developer Toolkit**. It details how each tool and algorithm operates, the serverless Multi-AI gateway layer, the client-side document parsers, the heuristic ATS engine, the closed-loop resume improvement workflow, rate limiting and cost protection, and zero-cost serverless deployment.
 
 ---
 
@@ -8,21 +8,25 @@ This document provides a comprehensive technical breakdown of **Resume Scanner P
 1. [System Architecture Overview](#1-system-architecture-overview)
 2. [Document Parsing Pipeline (PDF, DOCX, TXT)](#2-document-parsing-pipeline-pdf-docx-txt)
 3. [ATS Heuristic Scanner & Scoring Algorithm](#3-ats-heuristic-scanner--scoring-algorithm)
-4. [Multi-AI Architecture (`UnifiedAIService`)](#4-multi-ai-architecture-unifiedaiservice)
-5. [AI Career Feature Suite](#5-ai-career-feature-suite)
-6. [AI Resume Architect (Builder)](#6-ai-resume-architect-builder)
-7. [Developer Code Tools](#7-developer-code-tools)
-8. [Prompt Engineering Studio](#8-prompt-engineering-studio)
-9. [State Management & Data Persistence](#9-state-management--data-persistence)
-10. [Hosting & Deployment Architecture](#10-hosting--deployment-architecture)
+4. [Closed-Loop AI Resume Improvement](#4-closed-loop-ai-resume-improvement)
+5. [Serverless AI Gateway & Provider Architecture](#5-serverless-ai-gateway--provider-architecture)
+6. [Rate Limiting & Cost Protection](#6-rate-limiting--cost-protection)
+7. [Career Feature Suite](#7-career-feature-suite)
+8. [Resume Architect (5-Step Builder)](#8-resume-architect-5-step-builder)
+9. [Developer Code Tools](#9-developer-code-tools)
+10. [Prompt Engineering Studio](#10-prompt-engineering-studio)
+11. [Legal, Privacy, and AdSense Architecture](#11-legal-privacy-and-adsense-architecture)
+12. [Hosting & Deployment Architecture](#12-hosting--deployment-architecture)
 
 ---
 
 ## 1. System Architecture Overview
 
-`Resume Scanner Pro` is engineered as a **100% client-side Single-Page Application (SPA)**. It requires no centralized database or backend server.
+`AI Developer Toolkit` is engineered as an **edge-accelerated hybrid application**:
+- **100% Free & Local Processing**: Binary document parsing, keyword tokenization, structural section hygiene checks, 65/35 ATS scoring, and resume generation operate entirely inside the client's browser with 0 API calls and zero latency.
+- **Serverless AI Gateway (`/api/ai`)**: Advanced AI tasks (holistic resume refactoring, bullet point rewriting, cover letter generation, interview predictions, and code debugging) route through a lightweight serverless gateway. The serverless layer securely injects provider API secrets, enforces sliding-window daily rate limits per anonymous IP, and handles task-based model optimization.
 
-### Architecture Diagram:
+### Architecture Flow:
 ```
 [User Browser]
    │
@@ -33,87 +37,62 @@ This document provides a comprehensive technical breakdown of **Resume Scanner P
    │     └── FileReader API (Plain Text / Markdown)
    │           │
    │           ▼
-   ├── Instant ATS Heuristic Engine (0ms Execution)
+   ├── Instant Local ATS Engine (100% Free & Private)
    │     ├── Tokenizer & Stop-Word Filter
-   │     ├── Keyword Density & Match Calculator
-   │     ├── Structural Section Detection (Regex)
-   │     └── SVG Circular Gauge Renderer
+   │     ├── Top 18 High-Signal Keyword Extraction
+   │     ├── Regex Word-Boundary Matcher (\b)
+   │     ├── Structural Section Detection
+   │     └── Transparent 65% Keyword + 35% Structure Scoring
    │
-   ├── Multi-AI Unified Dispatcher (BYOK + Smart Demo)
-   │     ├── Google Gemini API (SSE Streaming)
-   │     ├── OpenAI / DeepSeek / Groq / OpenRouter (Chat Completions SSE)
-   │     ├── Anthropic Claude API (Messages SSE)
-   │     └── Built-In Offline Demo Engine (Contextual Fallback)
-   │           │
-   │           ▼
-   ├── Feature Modules (Cover Letter, Interview Qs, Bullets, Builder, Code)
-   │
-   ├── Monetization & Ad Placement Engine
-   │     ├── Google AdSense Dynamic Injection
-   │     └── Fallback Sponsor Card Components
-   │
-   └── Local Storage (`localStorage`) for Keys & Settings
+   ├── AI Feature Request (e.g. "✨ Improve Resume with AI")
+   │     │
+   │     ▼
+   │  [Client Limit Check & Live Badge Indicator]
+   │     │
+   │     ├── Daily Limit Exceeded? ──> Display Clean Lock Modal (#lockModal)
+   │     │
+   │     └── Within Daily Limit ──> POST /api/ai
+   │                                  │
+   │                                  ▼
+   │                    [Serverless Edge Function]
+   │                    (Cloudflare / Vercel / Netlify / Node.js)
+   │                          │
+   │                          ├── IP Hash Rate Limiter (Max 3/day default)
+   │                          ├── Request Size & Prompt Sanitizer (<100KB)
+   │                          ├── Task Router (Fast vs Strong Model selection)
+   │                          └── Injects Server-Side AI_API_KEY
+   │                                  │
+   │                                  ▼
+   │                     [AI Provider: Gemini, Claude, OpenAI, Groq]
+   │                                  │
+   │                                  ▼ (SSE Stream)
+   │                    [Client SSE Consumer with DOM Sanitization]
+   │                          │
+   │                          ▼
+   └── [Closed-Loop UI]: 1-Click "Apply to Resume & Re-Scan" in ATS
 ```
 
 ---
 
 ## 2. Document Parsing Pipeline (PDF, DOCX, TXT)
 
-Unlike basic tools that only accept copy-pasted text, this platform extracts raw text from binary documents directly within the user's browser.
+Documents are parsed directly in the user's browser memory using WebAssembly / JavaScript without uploading files to any remote server:
 
 ### Supported File Formats:
-- **PDF (`.pdf`)**: Parsed via `PDF.js` (Mozilla).
-- **Word (`.docx`)**: Parsed via `Mammoth.js`.
-- **Text (`.txt`, `.md`)**: Parsed via the native `FileReader` API.
-
-### Code Implementation:
-
-#### A. PDF Extraction (`extractTextFromPDF`)
-```javascript
-async function extractTextFromPDF(file) {
-  const buffer = await file.arrayBuffer();
-  if (!window.pdfjsLib) throw new Error('PDF reader engine is still initializing.');
-  
-  // Load document array buffer into PDF.js worker
-  const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
-  let fullText = '';
-  
-  // Iterate through all pages sequentially
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const textContent = await page.getPageContent ? await page.getPageContent() : await page.getTextContent();
-    const pageText = textContent.items.map(item => item.str).join(' ');
-    fullText += pageText + '\n\n';
-  }
-  return fullText.trim();
-}
-```
-
-#### B. Word (.docx) Extraction (`extractTextFromDOCX`)
-`Mammoth.js` unzips the `.docx` OpenXML archive client-side and extracts plain text elements without layout clutter:
-```javascript
-async function extractTextFromDOCX(file) {
-  const buffer = await file.arrayBuffer();
-  if (!window.mammoth) throw new Error('DOCX reader engine is not loaded.');
-  const result = await window.mammoth.extractRawText({ arrayBuffer: buffer });
-  return result.value.trim();
-}
-```
-
-#### C. Drag-and-Drop Feedback
-The drop zone listens to `dragenter`, `dragover`, `dragleave`, and `drop` events on `.rs-panel`, toggling the `.drag-over` CSS border animation and feeding dropped files to `handleFile(file)`.
+- **PDF (`.pdf`)**: Parsed via `PDF.js` (Mozilla). Iterates through pages and reconstructs plain text from text content items.
+- **Word (`.docx`)**: Parsed via `Mammoth.js`. Unzips OpenXML content and extracts plain text while preserving paragraph boundaries.
+- **Text (`.txt`, `.md`)**: Parsed via the browser's native `FileReader.readAsText()` API.
 
 ---
 
 ## 3. ATS Heuristic Scanner & Scoring Algorithm
 
-The ATS Scanner evaluates how well a resume matches a job description **instantly without requiring an AI API call**, saving latency and API quotas.
+The ATS Scanner evaluates how well a resume matches a job description **instantly without requiring an AI API call**, eliminating operating costs and preserving user privacy.
 
-### Algorithm Breakdown:
-
+### Scoring Breakdown:
 1. **Stop-Word Elimination & Tokenization**:
-   - Removes common English words (`the`, `with`, `and`, etc.) and numbers.
-   - Extracts technical terms, noun phrases, and role skills.
+   - Strips common grammatical stop words (`and`, `the`, `with`, `for`, `about`, etc.) and numbers.
+   - Extracts technical skills, frameworks, and job requirements.
    - Ranks the top 18 highest-frequency keywords from the job description.
 
 2. **Word-Boundary Regex Matching**:
@@ -123,7 +102,7 @@ The ATS Scanner evaluates how well a resume matches a job description **instantl
      return pattern.test(text);
    }
    ```
-   Ensures substrings do not trigger false positives (e.g. `Java` will not match inside `JavaScript`).
+   Prevents false positives (e.g. `Java` will not match inside `JavaScript`).
 
 3. **Core Section Detection**:
    Verifies standard ATS structural sections using regex:
@@ -131,194 +110,100 @@ The ATS Scanner evaluates how well a resume matches a job description **instantl
    - Education: `/\b(education|degree|university|college|bachelor|master|phd)\b/i`
    - Skills: `/\b(skills|technologies|tools|competencies|stack)\b/i`
    - Contact Info: `/[\w.-]+@[\w.-]+\.\w+/`
+   - Summary / Objective: `/\b(summary|profile|about|objective)\b/i`
+   - Projects / Certifications: `/\b(projects|certifications|credentials)\b/i`
 
-4. **Weighted Score Computation**:
+4. **Transparent 65/35 Score Computation**:
    $$\text{Match Score} = (\text{Keyword Coverage Ratio} \times 0.65) + (\text{Section Presence Ratio} \times 0.35)$$
    - Clamped between $20\%$ and $99\%$.
-   - Classified into 3 tiers:
-     - $\ge 70\%$: **Strong match** (Green)
-     - $45\% - 69\%$: **Reasonable fit** (Yellow)
-     - $< 45\%$: **Weak match / Real gaps** (Red)
-
-5. **SVG Circular Gauge Rendering**:
-   Computes stroke offset dynamically based on circle circumference:
-   $$\text{Circumference} = 2 \times \pi \times 38 \approx 238.76$$
-   $$\text{Offset} = \text{Circumference} - \left(\frac{\text{Score}}{100} \times \text{Circumference}\right)$$
-   Animated with smooth CSS cubic-bezier transitions.
+   - Transparently displays matched keywords, missing keywords, and structural checklist.
 
 ---
 
-## 4. Multi-AI Architecture (`UnifiedAIService`)
+## 4. Closed-Loop AI Resume Improvement
 
-The platform features an abstract AI dispatch layer that supports **6 top AI providers** plus a **Built-in Offline Demo Engine**.
-
-### Supported Providers & API Protocols:
-
-| Provider | Endpoint | Auth Header | Protocol |
-|---|---|---|---|
-| **Google Gemini** | `generativelanguage.googleapis.com` | `?key=${apiKey}` | Server-Sent Events (SSE) |
-| **OpenAI** | `api.openai.com/v1/chat/completions` | `Bearer ${apiKey}` | Chat Completions SSE |
-| **Anthropic Claude** | `api.anthropic.com/v1/messages` | `x-api-key: ${apiKey}` | Messages API SSE |
-| **DeepSeek** | `api.deepseek.com/chat/completions` | `Bearer ${apiKey}` | OpenAI-compatible SSE |
-| **Groq** | `api.groq.com/openai/v1/chat/completions` | `Bearer ${apiKey}` | Ultra-fast Llama 3.3 SSE |
-| **OpenRouter** | `openrouter.ai/api/v1/chat/completions` | `Bearer ${apiKey}` | Universal multi-model SSE |
-| **Smart Demo** | Client-side Simulator | None | Virtual word streamer |
-
-### Core Unified Dispatcher:
-All feature tabs call two high-level abstractions:
-- `callClaude(prompt, onChunk, onDone)`: Streams tokens character-by-character or chunk-by-chunk to the UI.
-- `callClaudeJSON(prompt)`: Returns a structured, parsed JSON object for programmatic components (Interview questions, Job compare).
-
-### Smart Offline Demo Mode:
-If a user does not have an API key, `simulateDemoStream` intercepts the prompt:
-- Detects the requested task (Cover letter, Master prompt, Bullet rewrite, or Resume generation).
-- Produces realistic domain-specific output.
-- Emulates live streaming at $\sim 25\text{ms}$ per word using `setInterval`.
-- Guarantees **100% uptime and testability for all visitors**.
+Rather than a disconnected AI generator, the platform provides a **tight feedback loop**:
+1. User uploads resume and target job description ➔ Runs free local ATS scan.
+2. System identifies specific keyword gaps and structural weaknesses.
+3. User clicks **✨ Improve Resume with AI** (`AI • 1 CREDIT`).
+4. Serverless gateway streams an optimized resume incorporating missing keywords while preserving authentic user facts.
+5. User clicks **Apply to Resume & Re-Scan** ➔ Injects the improved resume directly into the ATS scanner and automatically re-executes the heuristic audit to verify score gains.
 
 ---
 
-## 5. AI Career Feature Suite
+## 5. Serverless AI Gateway & Provider Architecture
 
-Located on the primary Scanner page below the results panel:
+### Multi-Cloud Support:
+- **Cloudflare Pages / Workers**: `functions/api/ai.js` and `functions/api/usage.js`
+- **Vercel Edge Functions**: `api/ai.js` and `api/usage.js`
+- **Netlify Functions**: `netlify/functions/ai.mjs`
+- **Native Node.js Server**: `server.js` for local development and self-hosting.
 
-### 1. Cover Letter Generator
-- Inputs: Current Resume + Target Job Description + Selected Tone.
-- Tones: `Professional`, `Enthusiastic`, `Concise & Direct`, `Storytelling`.
-- Outputs: Multi-paragraph cover letter highlighting candidate achievements matching the role's requirements.
-
-### 2. ATS Hygiene Checker
-Runs 5 automated client-side checks:
-1. Contact info detected (email regex).
-2. Work experience timeline detected.
-3. Education section detected.
-4. Skills & competencies section present.
-5. Clean layout without complex table pipes (`||`).
-
-### 3. Interview Question Predictor
-- Sends job requirements to `callClaudeJSON`.
-- Prompts AI to return 4 structured questions categorized by competency (e.g. *Technical Execution*, *Prioritization & Impact*).
-- Supplies a STAR-method answer strategy for each question in an interactive accordion element.
-
-### 4. Bullet Point Rewriter
-- Takes user bullet points line-by-line.
-- Transforms passive verbs (`"Was responsible for..."`) into active metric-driven achievements (`"Spearheaded...", "Cut latency by 38%..."`).
-- Renders a side-by-side Before/After grid.
-
-### 5. Multi-Job Description Comparison
-- Evaluates candidate resume against up to 3 different postings (`Job A`, `Job B`, `Job C`).
-- Ranks best fit with match percentages and justification.
+### Task-Based Model Routing:
+The serverless gateway inspects the incoming `task` parameter and routes to the most cost-effective model:
+- `TASK_RESUME_BULLET`: Fast, low-cost model (`gemini-2.0-flash` / `gpt-4o-mini`).
+- `TASK_COVER_LETTER`: Fast model (`gemini-2.0-flash` / `gpt-4o-mini`).
+- `TASK_CODE_DEBUG`: Coding model with structured reasoning.
+- `TASK_RESUME_IMPROVE`: High-capability model (`gemini-2.5-pro` / `claude-3-5-sonnet`).
 
 ---
 
-## 6. AI Resume Architect (Builder)
+## 6. Rate Limiting & Cost Protection
 
-Located on Page 2 (`#page-resume-gen`), this module enables building a resume from scratch:
-
-1. **5-Step Form Wizard**:
-   - Step 1: Personal Contact & Portfolio URLs.
-   - Step 2: Professional Summary & Specialties.
-   - Step 3: Work History & Quantified Metrics.
-   - Step 4: Education & Technical Stack.
-   - Step 5: Format (`Chronological`, `Functional`, `Hybrid`) & Optional Target JD.
-2. **Real-time Live Stream**:
-   Outputs a plain-text, ATS-compliant resume with standardized ALL-CAPS section headers.
-3. **Actions**:
-   - `Copy Text`: Copies output to clipboard.
-   - `Print / PDF`: Triggers print stylesheet.
-   - `→ Scan in ATS`: Injects generated resume directly into Scanner Page 1 for validation.
+1. **Anonymous IP Rate Limiting**:
+   - The serverless gateway hashes `Client-IP + Date` into an in-memory sliding bucket.
+   - Limit: `FREE_DAILY_AI_LIMIT` (default 3 requests/day).
+   - Once depleted, responds with HTTP `429 Too Many Requests`.
+2. **Frontend Quota Display**:
+   - Fetches current quota from `/api/usage` on load and updates the header badge (`⚡ AI: 3 Left Today`).
+   - If quota hits zero, AI buttons open a clean modal explanation without broken UI states.
+3. **Payload Protection**:
+   - Rejects payloads exceeding 100KB.
+   - Enforces max prompt length of 12,000 characters.
+   - Sanitizes DOM outputs to eliminate XSS risks.
 
 ---
 
-## 7. Developer Code Tools
-
-Located on Page 3 (`#page-code-tools`):
-
-1. **Language Matrix**:
-   JavaScript, TypeScript, Python, Java, C++, Go, Rust, SQL.
-2. **Code Debugger**:
-   Analyzes broken code snippets, identifies the root cause (off-by-one errors, type coercion, null checks), and provides the fixed implementation.
-3. **Code Generator**:
-   Synthesizes production-ready Functions, Classes, API endpoints, Algorithms, and Unit Tests with defensive input handling.
+## 7. Career Feature Suite
+- **Cover Letter Generator**: 4 tones (Professional, Confident, Concise, Storytelling).
+- **Quantified Bullet Rewriter**: Side-by-side Before/After grid with active verbs and measurable outcomes.
+- **Interview Question Predictor**: Generates role-specific questions with STAR-method answer frameworks.
+- **Multi-Job Description Comparison**: Compares a single resume across up to 3 job descriptions.
 
 ---
 
-## 8. Prompt Engineering Studio
-
-Located on Page 4 (`#page-prompt-studio`):
-
-### Mode 1: Master Prompt Generator
-Transforms a brief task description into an enterprise-grade system prompt structured with:
-- AI Persona & Role
-- Primary Goal & Context
-- Input Variables / Placeholders (`[Insert Details]`)
-- Step-by-Step Execution Plan
-- Constraints & Boundaries
-- Expected Output Format
-
-### Mode 2: Prompt Quality Analyzer
-Performs a 6-stage structured prompt critique:
-1. Initial Assessment & Quality Score (out of 10).
-2. Structural Analysis (Clarity, Specificity, Completeness).
-3. Key Strengths.
-4. Areas for Improvement.
-5. Enhanced Version.
-6. Implementation Notes.
+## 8. Resume Architect (5-Step Builder)
+- Step-by-step guided form: Personal, Summary, Experience, Education + Skills, Style.
+- Formats: Chronological, Functional, Hybrid.
+- Actions: Copy Text, Print / PDF Export, and **1-Click "Scan in ATS"**.
 
 ---
 
-## 9. State Management & Data Persistence
-
-All application states are persisted client-side in the browser's `localStorage`:
-
-| Key | Type | Description |
-|---|---|---|
-| `ai_provider` | `string` | Selected provider (`demo`, `gemini`, `openai`, `anthropic`, `deepseek`, `groq`, `openrouter`) |
-| `ai_model_<provider>` | `string` | Selected model ID for that provider |
-| `api_key_<provider>` | `string` | Stored API key for that provider |
-
-No credentials, resumes, or user prompts are ever sent to tracking servers.
+## 9. Developer Code Tools
+- Multi-Language Support: Python, JavaScript, TypeScript, Java, C++, C#, Go, Rust, SQL.
+- **Code Debugger**: Pinpoints bugs, explains the error mechanism, and provides verified fixes.
+- **Code Explainer**: Details algorithmic concepts and time/space complexity.
+- **Code Generator**: Generates production-ready implementations with edge-case handling.
 
 ---
 
-## 10. Hosting & Deployment Architecture
+## 10. Prompt Engineering Studio
+- **Master Prompt Generator**: Converts simple tasks into structured system prompts with persona, context, constraints, and output schema.
+- **Prompt Quality Analyzer**: 6-stage evaluation rating clarity, specificity, and constraints.
 
-Because the project is 100% static (HTML, CSS, JavaScript), it can be deployed on global Edge CDNs for **$0/month**:
+---
 
-### 1. Vercel Configuration (`vercel.json`):
-```json
-{
-  "version": 2,
-  "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    }
-  ]
-}
-```
+## 11. Legal, Privacy, and AdSense Architecture
+- **Zero Document Retention**: Resumes are parsed locally in browser RAM and never stored.
+- **Privacy Policy & Terms of Service**: Built-in modal dialogs documenting local processing, IP rate-limiting, and AI provider terms.
+- **AdSense Readiness**: Pre-configured layout slots, `ads.txt`, and toggled via `ADS_ENABLED`.
 
-### 2. Netlify Configuration (`netlify.toml`):
-```toml
-[build]
-  publish = "."
+---
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Access-Control-Allow-Origin = "*"
-```
+## 12. Hosting & Deployment Architecture
 
-### 3. Deployment Methods:
-- **GitHub → Vercel**: Import repo → Deploy in 30 seconds.
-- **Netlify Drop**: Drag & drop project folder into [app.netlify.com/drop](https://app.netlify.com/drop).
-- **GitHub Pages**: Turn on Pages under Repository Settings → Branch `main`.
+Zero-cost deployment on any major edge platform:
+- **Cloudflare Pages**: Connect GitHub repo, build output `/`, set environment variables.
+- **Vercel**: Import repository, Edge functions auto-configured in `api/`.
+- **Netlify**: Connect repository, `netlify/functions/` auto-configured.
+- **Self-Hosted / VPS**: Run `node server.js` with `PORT=3000`.

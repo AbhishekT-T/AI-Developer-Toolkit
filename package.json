@@ -1,11 +1,11 @@
 {
-  "name": "resume-scanner-pro",
+  "name": "ai-developer-toolkit",
   "version": "1.0.0",
-  "description": "Multi-AI ATS Resume Scanner, Resume Builder & Career Suite with AdSense Integration",
-  "main": "index.html",
+  "description": "Production Multi-AI ATS Resume Scanner, Builder & Developer Toolkit",
+  "main": "server.js",
   "scripts": {
-    "dev": "npx serve .",
-    "start": "npx serve ."
+    "dev": "node server.js",
+    "start": "node server.js"
   },
   "keywords": [
     "resume-scanner",
@@ -16,8 +16,8 @@
     "claude",
     "deepseek",
     "groq",
-    "adsense"
+    "cloudflare-pages"
   ],
-  "author": "",
+  "author": "AbhishekT-T",
   "license": "MIT"
 }
