@@ -68,23 +68,7 @@
   }
   .rs-wrap { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 24px 28px 64px; }
 
-  /* Top sticky announcement/ad banner */
-  .sticky-top-bar {
-    background: linear-gradient(90deg, rgba(255,138,61,0.12), rgba(167,139,250,0.15), rgba(61,220,132,0.12));
-    border-bottom: 1px solid var(--line);
-    padding: 8px 18px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    position: relative;
-    z-index: 100;
-  }
-  .sticky-top-bar .msg { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .sticky-top-bar .badge { background: var(--amber); color: #1A0E04; font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }
-  .sticky-top-bar a { color: var(--amber); text-decoration: underline; font-weight: 500; cursor: pointer; }
-  .sticky-top-bar .close-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 6px; }
+  
 
   /* Page Navigation */
   .page-nav {
@@ -171,54 +155,7 @@
   .rs-meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); text-align:right; line-height: 1.8; padding-top: 8px; white-space: nowrap; }
   .rs-meta b { color: var(--text); }
 
-  /* Ad Banner Slots (Google AdSense Ready) */
-  .ad-slot-wrapper {
-    margin: 18px 0 24px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-  .ad-container {
-    width: 100%;
-    max-width: 970px;
-    background: rgba(17,26,43,0.7);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ad-placeholder-content {
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .ad-info { display: flex; align-items: center; gap: 12px; text-align: left; }
-  .ad-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.08); color: var(--text-dim); }
-  .ad-headline { font-size: 13px; font-weight: 600; color: var(--text); }
-  .ad-subtext { font-size: 11.5px; color: var(--text-dim); }
-  .ad-btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 6px 14px;
-    border-radius: 6px;
-    background: var(--amber);
-    color: #1A0E04;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: transform .12s;
-  }
-  .ad-btn:hover { transform: translateY(-1px); }
+  
 
   /* One-Click Sample Resumes Bar */
   .sample-bar {
@@ -577,17 +514,7 @@
 <body>
 <div class="bg-grid"></div>
 
-<!-- STICKY TOP AD / ANNOUNCEMENT -->
-<div class="sticky-top-bar" id="stickyTopBar">
-  <div class="msg">
-    <span class="badge">Multi-AI</span>
-    <span>Ready to test: Supports <b>Google Gemini</b>, <b>OpenAI GPT-4o</b>, <b>Claude</b>, <b>DeepSeek R1</b>, <b>Groq</b>, and <b>Free Demo Mode</b>.</span>
-  </div>
-  <div style="display:flex; align-items:center; gap:12px;">
-    <a onclick="openSettingsModal('ai')">Choose Model / API Keys →</a>
-    <button class="close-btn" onclick="document.getElementById('stickyTopBar').style.display='none'">&times;</button>
-  </div>
-</div>
+
 
 <div class="rs-wrap">
 
@@ -624,10 +551,7 @@
         <span style="opacity:0.6; font-size:9px;">▼</span>
       </button>
 
-      <button class="page-nav-btn" onclick="openSettingsModal('ads')" style="color:var(--yellow); border-color:rgba(255,182,72,0.35);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M16 10H9.5a2.5 2.5 0 0 0 0 5H14"/></svg>
-        Ad Settings
-      </button>
+      
 
       <button class="page-nav-btn" onclick="openSettingsModal('ai')" style="color:var(--amber); border-color:rgba(255,138,61,0.4); background:rgba(255,138,61,0.08);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
@@ -1229,8 +1153,7 @@
         <a onclick="openModal('termsModal')">Terms of Service</a>
         <a onclick="openModal('aboutModal')">About &amp; Contact</a>
         <a onclick="openModal('hostingModal')">Host Free on Vercel/Netlify</a>
-        <a onclick="openSettingsModal('ads')">Ad Monetization</a>
-      </div>
+        </div>
     </div>
     <div style="font-size:11px; color:#64748B;">
       Client-side processing: Your resumes, job descriptions, and API credentials are kept securely in your browser's local memory and are never stored on external tracking servers.
@@ -1240,96 +1163,50 @@
 </div><!-- /rs-wrap -->
 
 <!-- ═══════════════════════════════════════════
-     MODAL: MULTI-AI & AD SETTINGS
+     MODAL: MULTI-AI SETTINGS
 ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="apiModal">
   <div class="modal-card">
     <div class="modal-title">
-      <span>⚙️ AI &amp; Ad Monetization Settings</span>
+      <span>⚙️ AI Model &amp; Provider Settings</span>
       <button class="modal-close" onclick="closeModal('apiModal')">&times;</button>
     </div>
 
-    <!-- TABS -->
-    <div class="modal-tabs">
-      <button class="modal-tab-btn active" id="tabBtnAi" onclick="switchSettingsTab('ai')">🤖 Multi-AI Models</button>
-      <button class="modal-tab-btn" id="tabBtnAds" onclick="switchSettingsTab('ads')">💰 Google AdSense</button>
+    <div class="modal-desc">
+      Select your preferred AI engine. You can use <b>Free Demo Mode</b> right away without any key, or plug in your own API key for Gemini, OpenAI, Claude, DeepSeek, Groq, or OpenRouter.
     </div>
 
-    <!-- TAB 1: AI MODELS -->
-    <div id="settingsTabAi">
-      <div class="modal-desc">
-        Select your preferred AI engine. You can use <b>Free Demo Mode</b> right away without any key, or plug in your own API key for Gemini, OpenAI, Claude, DeepSeek, or Groq.
-      </div>
-
-      <div class="rgen-field" style="margin-bottom:14px;">
-        <div class="rgen-label">AI Engine Provider</div>
-        <select class="rgen-input" id="aiProviderSelect" style="font-family:var(--mono); font-size:12px;">
-          <option value="demo">✨ Smart Free Demo (No API Key Required)</option>
-          <option value="gemini">Google Gemini (Gemini 2.5 Flash, 2.0, 1.5 Pro)</option>
-          <option value="openai">OpenAI (GPT-4o, GPT-4o Mini, o3-mini)</option>
-          <option value="anthropic">Anthropic Claude (Claude 3.5 Sonnet, 3.5 Haiku)</option>
-          <option value="deepseek">DeepSeek (DeepSeek V3, DeepSeek R1)</option>
-          <option value="groq">Groq (Ultra-Fast Llama 3.3 70B, Mixtral)</option>
-          <option value="openrouter">OpenRouter (Universal 200+ Models)</option>
-        </select>
-      </div>
-
-      <div class="rgen-field" id="modelSelectRow" style="margin-bottom:14px;">
-        <div class="rgen-label">Model Selection</div>
-        <select class="rgen-input" id="aiModelSelect" style="font-family:var(--mono); font-size:12px;"></select>
-      </div>
-
-      <div class="rgen-field" id="apiKeyRow" style="margin-bottom:14px;">
-        <div class="rgen-label" id="apiKeyLabel">API Key</div>
-        <div style="display:flex; gap:8px;">
-          <input class="rgen-input" id="apiKeyInput" type="password" placeholder="Enter API key...">
-          <button class="rs-ghost-btn" id="btnToggleKeyVis" onclick="toggleKeyVisibility()" style="padding:0 10px;">👁</button>
-        </div>
-      </div>
-
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
-        <button class="rs-ghost-btn" id="btnTestConn" onclick="testAIConnection()">Test Connection</button>
-        <button class="rs-ghost-btn primary" onclick="saveAISettings()">Save AI Settings</button>
-      </div>
-      <div id="testConnResult" style="font-family:var(--mono); font-size:11.5px; margin-top:10px;"></div>
+    <div class="rgen-field" style="margin-bottom:14px;">
+      <div class="rgen-label">AI Engine Provider</div>
+      <select class="rgen-input" id="aiProviderSelect" style="font-family:var(--mono); font-size:12px;">
+        <option value="demo">✨ Smart Free Demo (No API Key Required)</option>
+        <option value="gemini">Google Gemini (Gemini 2.5 Flash, 2.0, 1.5 Pro)</option>
+        <option value="openai">OpenAI (GPT-4o, GPT-4o Mini, o3-mini)</option>
+        <option value="anthropic">Anthropic Claude (Claude 3.5 Sonnet, 3.5 Haiku)</option>
+        <option value="deepseek">DeepSeek (DeepSeek V3, DeepSeek R1)</option>
+        <option value="groq">Groq (Ultra-Fast Llama 3.3 70B, Mixtral)</option>
+        <option value="openrouter">OpenRouter (Universal 200+ Models)</option>
+      </select>
     </div>
 
-    <!-- TAB 2: ADSENSE MONETIZATION -->
-    <div id="settingsTabAds" style="display:none;">
-      <div class="modal-desc">
-        Configure Google AdSense banners to monetize your traffic when hosted online. Enter your AdSense publisher ID to activate live ads, or leave it in preview mode to show sleek sponsor units.
-      </div>
+    <div class="rgen-field" id="modelSelectRow" style="margin-bottom:14px;">
+      <div class="rgen-label">Model Selection</div>
+      <select class="rgen-input" id="aiModelSelect" style="font-family:var(--mono); font-size:12px;"></select>
+    </div>
 
-      <div class="rgen-field" style="margin-bottom:14px;">
-        <div class="rgen-label">AdSense Status</div>
-        <select class="rgen-input" id="adsenseStatusSelect" style="font-family:var(--mono); font-size:12px;">
-          <option value="preview">Preview Mode (Sleek Built-In Sponsor Cards)</option>
-          <option value="live">Live Google AdSense Ads</option>
-        </select>
-      </div>
-
-      <div class="rgen-field" style="margin-bottom:14px;">
-        <div class="rgen-label">Google AdSense Publisher ID (ca-pub-...)</div>
-        <input class="rgen-input" id="adsensePubId" placeholder="ca-pub-1234567890123456" type="text">
-      </div>
-
-      <div class="rgen-field" style="margin-bottom:14px;">
-        <div class="rgen-label">Top Banner Slot ID (Optional)</div>
-        <input class="rgen-input" id="adsenseSlotTop" placeholder="e.g. 1234567890" type="text">
-      </div>
-
-      <div style="font-size:11.5px; color:var(--text-dim); background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:10px; margin-bottom:16px;">
-        💡 <b>How to monetize:</b><br>
-        1. Submit your domain to Google AdSense.<br>
-        2. Ensure the provided <code>ads.txt</code> is placed in your website root.<br>
-        3. Once approved, switch status to "Live" and paste your Publisher ID above.
-      </div>
-
-      <div style="display:flex; justify-content:flex-end;">
-        <button class="rs-ghost-btn primary" onclick="saveAdSettings()">Save Ad Settings</button>
+    <div class="rgen-field" id="apiKeyRow" style="margin-bottom:14px;">
+      <div class="rgen-label" id="apiKeyLabel">API Key</div>
+      <div style="display:flex; gap:8px;">
+        <input class="rgen-input" id="apiKeyInput" type="password" placeholder="Enter API key...">
+        <button class="rs-ghost-btn" id="btnToggleKeyVis" onclick="toggleKeyVisibility()" style="padding:0 10px;">👁</button>
       </div>
     </div>
 
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+      <button class="rs-ghost-btn" id="btnTestConn" onclick="testAIConnection()">Test Connection</button>
+      <button class="rs-ghost-btn primary" onclick="saveAISettings()">Save AI Settings</button>
+    </div>
+    <div id="testConnResult" style="font-family:var(--mono); font-size:11.5px; margin-top:10px;"></div>
   </div>
 </div>
 
@@ -1462,10 +1339,7 @@
   window.openModal = id => { const m = $(id); if (m) m.classList.add('active'); };
   window.closeModal = id => { const m = $(id); if (m) m.classList.remove('active'); };
 
-  window.openSettingsModal = tab => {
-    openModal('apiModal');
-    if (tab) switchSettingsTab(tab);
-  };
+  window.openSettingsModal = () => openModal("apiModal");
 
   window.switchSettingsTab = tab => {
     $('tabBtnAi').classList.toggle('active', tab === 'ai');
@@ -2188,48 +2062,10 @@ EDUCATION & CREDENTIALS
     }
   };
 
-  /* ──────────────────────────────────────────────
-     ADSENSE MONETIZATION MANAGER
-  ────────────────────────────────────────────── */
-  window.saveAdSettings = function() {
-    const status = $('adsenseStatusSelect').value;
-    const pubId = $('adsensePubId').value.trim();
-    const slotTop = $('adsenseSlotTop').value.trim();
+  
+    
 
-    localStorage.setItem('adsense_status', status);
-    localStorage.setItem('adsense_pub_id', pubId);
-    localStorage.setItem('adsense_slot_top', slotTop);
-
-    initAdSense();
-    closeModal('apiModal');
-    alert('Ad settings updated successfully!');
-  };
-
-  function initAdSense() {
-    const status = localStorage.getItem('adsense_status') || 'preview';
-    const pubId = localStorage.getItem('adsense_pub_id') || '';
-    const placeholder = $('adPlaceholderTop');
-    const realAd = $('realAdTop');
-
-    if (status === 'live' && pubId.startsWith('ca-pub-')) {
-      placeholder.style.display = 'none';
-      realAd.style.display = 'block';
-
-      // Load Google AdSense script dynamically if not present
-      if (!document.getElementById('adsense-sdk')) {
-        const script = document.createElement('script');
-        script.id = 'adsense-sdk';
-        script.src = `https://page2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${pubId}`;
-        script.async = true;
-        script.crossOrigin = 'anonymous';
-        document.head.appendChild(script);
-      }
-    } else {
-      placeholder.style.display = 'flex';
-      realAd.style.display = 'none';
-    }
-  }
-  initAdSense();
+  
 
   /* ──────────────────────────────────────────────
      ATS HEURISTIC SCANNER (Instant Local Analysis)

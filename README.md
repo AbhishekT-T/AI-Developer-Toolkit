@@ -47,16 +47,6 @@ Users can use the built-in **Smart Free Demo Mode** (no API key needed) or plug 
 
 ---
 
-## 💰 Monetization: Google AdSense Ready
-
-- **Top Leaderboard Banner** (728x90 / responsive)
-- **In-Content Result Banner**
-- **Sticky Announcement Bar**
-- Configurable **Live AdSense Mode** or **Clean Sponsor Card Mode** (maintains high aesthetics while waiting for AdSense approval).
-- Includes pre-configured [`ads.txt`](ads.txt) and built-in **Privacy Policy**, **Terms of Service**, and **About** modals.
-
----
-
 ## 🚀 Free 1-Click Hosting
 
 This app is 100% static and zero-backend, making it free to host forever on:

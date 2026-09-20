@@ -13,9 +13,8 @@ This document provides a comprehensive technical breakdown of **Resume Scanner P
 6. [AI Resume Architect (Builder)](#6-ai-resume-architect-builder)
 7. [Developer Code Tools](#7-developer-code-tools)
 8. [Prompt Engineering Studio](#8-prompt-engineering-studio)
-9. [Monetization & Google AdSense Engine](#9-monetization--google-adsense-engine)
-10. [State Management & Data Persistence](#10-state-management--data-persistence)
-11. [Hosting & Deployment Architecture](#11-hosting--deployment-architecture)
+9. [State Management & Data Persistence](#9-state-management--data-persistence)
+10. [Hosting & Deployment Architecture](#10-hosting--deployment-architecture)
 
 ---
 
@@ -268,31 +267,7 @@ Performs a 6-stage structured prompt critique:
 
 ---
 
-## 9. Monetization & Google AdSense Engine
-
-The application is built to generate revenue while maintaining aesthetics:
-
-### Ad Placement Architecture:
-1. **Top Leaderboard Banner (`#adSlotTop`)**:
-   Responsive container placed between top navigation and main content (`728x90` desktop / `320x50` mobile).
-2. **In-Content Result Banner (`#adSlotResult`)**:
-   Targeted banner placed directly beneath the ATS match gauge.
-3. **Sticky Top Announcement Bar (`#stickyTopBar`)**:
-   Non-intrusive alert with a dismiss button.
-
-### Dual-Mode Ad System:
-- **Live AdSense Mode**: Injects `page2.googlesyndication.com/pagead/js/adsbygoogle.js` with the user's `ca-pub-XXXXXXXXXXXXXXXX` publisher ID.
-- **Preview / Sponsor Mode**: Displays sleek dark-mode placeholder sponsor cards so layout never collapses or looks broken before AdSense approval.
-
-### AdSense Compliance Assets Included:
-- **`ads.txt`**: Placed at root directory for domain verification.
-- **Privacy Policy Modal**: Explains client-side processing, cookie usage, and third-party advertising.
-- **Terms of Service Modal**: Standard software disclaimer.
-- **About & Contact Modal**: Support contact info.
-
----
-
-## 10. State Management & Data Persistence
+## 9. State Management & Data Persistence
 
 All application states are persisted client-side in the browser's `localStorage`:
 
@@ -301,15 +276,12 @@ All application states are persisted client-side in the browser's `localStorage`
 | `ai_provider` | `string` | Selected provider (`demo`, `gemini`, `openai`, `anthropic`, `deepseek`, `groq`, `openrouter`) |
 | `ai_model_<provider>` | `string` | Selected model ID for that provider |
 | `api_key_<provider>` | `string` | Stored API key for that provider |
-| `adsense_status` | `string` | `preview` or `live` |
-| `adsense_pub_id` | `string` | Publisher ID (`ca-pub-...`) |
-| `adsense_slot_top` | `string` | Slot ID for top banner |
 
 No credentials, resumes, or user prompts are ever sent to tracking servers.
 
 ---
 
-## 11. Hosting & Deployment Architecture
+## 10. Hosting & Deployment Architecture
 
 Because the project is 100% static (HTML, CSS, JavaScript), it can be deployed on global Edge CDNs for **$0/month**:
 
