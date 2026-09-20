@@ -1,0 +1,23 @@
+{
+  "name": "resume-scanner-pro",
+  "version": "1.0.0",
+  "description": "Multi-AI ATS Resume Scanner, Resume Builder & Career Suite with AdSense Integration",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "resume-scanner",
+    "ats-checker",
+    "multi-ai",
+    "gemini",
+    "openai",
+    "claude",
+    "deepseek",
+    "groq",
+    "adsense"
+  ],
+  "author": "",
+  "license": "MIT"
+}
