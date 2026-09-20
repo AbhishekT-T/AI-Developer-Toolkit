@@ -811,5 +811,40 @@ recentLocalResults
 ```
 
 Do NOT store production API secrets.
+Do NOT store sensitive personal identifiable information (PII) or raw resume texts permanently in localStorage.
 
-Do NOT st
+---
+
+# 28. Error Handling
+
+Every AI feature must handle errors gracefully:
+
+* Quota/Rate limit exceeded (HTTP 429) -> Show clean lock modal or daily limit notification
+* AI service unavailable / offline -> Inform user and suggest local alternatives
+* Request timeout or network failure -> Provide retry option
+* Invalid or corrupted files -> Show specific parsing error without crashing
+
+Never expose raw stack traces, internal server errors, or sensitive environment variables to the client.
+
+---
+
+# 29. Performance & Low-Cost Operation
+
+* Keep client-side bundle lightweight and dependency-free where possible.
+* Prefer modern native browser APIs (`fetch`, `ReadableStream`, `FileReader`, `crypto.subtle`).
+* Ensure page load time is under 1.5 seconds.
+* Host statically or on serverless edge runtimes (Cloudflare Pages, Vercel Edge, Netlify) to achieve zero fixed monthly server costs.
+
+---
+
+# 30. Verification & Quality Checklist
+
+Before committing or deploying:
+
+1. [x] Check that all navigation tabs and forms render properly.
+2. [x] Verify local ATS scanner works without any external API calls.
+3. [x] Test document parsing for `.pdf`, `.docx`, and `.txt` files.
+4. [x] Confirm rate-limiting and quota badge logic work properly.
+5. [x] Ensure no API keys or secrets are stored in client-side code or public files.
+6. [x] Verify responsive layout across mobile and desktop viewports.
+7. [x] Ensure legal modals (Privacy Policy, Terms) are fully accessible.
